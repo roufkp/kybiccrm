@@ -1,0 +1,2 @@
+set up enviorment : myenv
+create project and run : done
