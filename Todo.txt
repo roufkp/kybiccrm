@@ -1,2 +1,34 @@
+user:developer.addox@gmail.com
+kybic123
+rouf
+
+pabbly api : pc_d4f220ef7a12750693c2634d5194f8ad
+
+mysql user:root
+pwd:roufmysql@23
+
+to run the website open bash terminal and "export READ_DOT_ENV_FILE=True "
+
+{% load tailwind_filters %}
+{{ form|crispy }}
+
 set up enviorment : myenv
 create project and run : done
+create apps
+    leads
+
+create seperate "urls.py" for ever apps 
+    connect the project "urls.py" with app's "urls.py"
+
+create templates folder :
+    create one "templates" folder in project main folder 
+    add path in "settings.py" TEMPLATES ['DIRS': [BASE_DIR / "templates"],]
+
+
+ADD changes in "settings.py"
+    AUTH_USER_MODEL = 'leads.User'  # inbuilt model using
+
+Create Lead form and collect data   
+    create forms.py in leads app
+    connect with views.py
+    

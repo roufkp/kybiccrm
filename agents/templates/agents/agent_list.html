@@ -1,0 +1,97 @@
+
+{% extends "main.html" %}
+{% load static %}
+
+
+
+{% block content %}
+<!-- <nav>
+    <div class="company-logo">
+        <img src="{% static 'images/logo1.png' %}" alt="Kybic">
+    </div>
+
+</nav> -->
+
+
+
+<style>
+  .button{
+    min-width: 100px;
+    padding: 7px 20px;
+    background: rgb(1, 12, 22);
+    border-radius: 20px;
+    box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+    color: aliceblue;
+
+  }
+  .button a{
+    color: aliceblue;
+
+  }
+</style><!-- Content -->
+
+  <div class="sub-container "> 
+        <!-- # Total staff Session -->
+
+      <div class="bg-transparent px-5 py-10 md:py-32">
+        <div class="mx-auto flex  flex-col   gap-y-20 items-start gap-x-8 px-auto md:px-16 ">
+          <div class=" flex flex-row flex-wrap justify-between w-full items-end border-b border-gray-200" style="gap:20%">
+            <h2 class="text-3xl  font-bold tracking-tight text-gray-900 sm:text-4xl">Staff List</h2>
+            <div>
+                {% if request.user.is_organiser %}
+                    <a href="{% url 'agents:agent-create' %}" class="text-gray-500 hover:text-blue-500">
+                      <button class="flex flex-col items-center justify-center ">
+                        <div class="p-2.5 bg-blue-100 rounded-full shadow hover:shadow-xl">
+                          <img src="{% static 'images/addstaff.png' %}"  alt="" class="w-6 ">
+                        </div>
+                        <p class="text-gray-700 text-sm mt-2 "> New Staff</p>
+                      </button>
+                    </a>
+                  </button>
+                {% endif %}
+              </div>
+          </div>
+          <ul role="list" class=" flex flex-row flex-wrap gap-3 md:gap-10 "> 
+              {% for agent in object_list %}            
+                  <li class=" " style="width: 150px;">
+                    <a href="{% url 'agents:agent-detail' agent.pk %}">
+                      <div class=" staff-badge flex flex-col items-center gap-3 shadow p-3 rounded-xl border hover:bg-indigo-100" >
+                        <img class="h-10 w-10 rounded-full border" src="{% static 'images/user1.jpg' %}" alt="">
+                        <div>
+                          <h3 class="text-center font-semibold leading-7 tracking-tight text-gray-900">{{agent.user.username}}</h3>
+                          <!-- <p class="text-sm font-semibold leading-6 text-indigo-600">{{agent.user.email}}</p> -->
+                          <p class="text-sm font-semibold leading-6 text-indigo-600">{{agent.user.role}}</p>
+                        </div>
+                      </div>
+                    </a>
+                   
+                  </li>
+              {% endfor %}
+          </ul>
+        </div>
+      </div>
+                 
+  </div>
+<!-- End of content -->
+
+
+</div>
+
+
+<!-- JS File -->
+<script type="text/javascript" src={% static 'js/main.js' %}>
+
+</script>
+
+
+
+  
+{% endblock content %}
+
+
+
+
+
+    
+  
+   

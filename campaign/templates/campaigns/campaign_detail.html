@@ -1,0 +1,198 @@
+    {% extends "main.html" %}
+    {% load static %}
+    {% block content %}    
+    <style>
+      .button{
+        min-width: 100px;
+        padding: 7px 20px;
+        background: rgb(1, 12, 22);
+        border-radius: 20px;
+        box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+        color: aliceblue;
+    
+      }
+      .button a{
+        color: aliceblue;
+    
+      }
+    </style>
+
+    
+    <!-- Content -->
+    
+      <div class="sub-container "> 
+            <!-- # staff Detailed Session -->
+
+            <section class="flex flex-col justify-center flex-wrap items-center">
+              <div class="container px-5 py-10 mx-auto">
+              <div class="basic flex flex-row flex-wrap">
+                <div class="icon   p-0  " >
+                    <img src="{% static 'images/campaign-icon.png' %}" alt="" class="h-25 " style="height:180px">
+                </div>
+                <div class="text-main flex flex-col items-start">
+                  <h3 class="text-2xl capitalize font-bold">{{campaign.name}}</h3>
+                  <p>End Date: {{campaign.end_date}}</p>
+                  <p>Ad ID: {{campaign.ad_id}}</p>
+                  <p class=" flex flex-row flex-wrap justify-center  my-3">Assigned to:
+                  <div class=" text-gray-900  flex flex-row flex-wrap gap-2">
+                      {% for agent in campaign.agent.all %}      
+                       <p class=" staff-badge rounded-xl  shadow px-3 text-center text-sm mb-2" style="min-width:50px">{{ agent.user.username }}</p>
+                      {% endfor %}
+                  </div>
+                  </p>
+                  {% comment %} <p>Email: {{agent.user.password}}</p> {% endcomment %}
+                  {% comment %} <p>Role: {{agent.user.role}}</p>
+                  <p>Created: {{agent.user.date_joined}}</p>
+       {% endcomment %}
+                  <div class="buttons flex flex-row justify-start gap-5 mt-5 flex-wrap">
+                      
+                      <a href="{% url 'campaigns:campaign-update' campaign.pk %}"  class="">
+                        <button class="flex flex-col items-center justify-center ">
+                            <div class="p-2.5 bg-blue-100 rounded-full shadow hover:shadow-xl">
+                              <img src="{% static 'images/update.png' %}"  alt="" class="w-6 ">
+                            </div>
+                            <p class="text-gray-700 text-sm mt-2 "> Update</p>
+                        </button>
+                      </a>
+                      {% if request.user.is_organiser  %}                           
+                        <a href="{% url 'leads:lead-create' campaign.pk %}" class="text-gray-500 hover:text-blue-100 ">                      
+                          <button class="flex flex-col items-center justify-center ">
+                                <div class="p-2.5 bg-blue-100 rounded-full shadow hover:shadow-xl">
+                                  <img src="{% static 'images/newlead.png' %}"  alt="" class="w-6 ">
+                                </div>
+                                <p class="text-gray-700 text-sm mt-2 "> Add lead</p>
+                          </button>
+                        </a>  
+                        {% if user.is_organiser and object.agent.count > 0 %}
+                          <a href="{% url 'campaign:campaign-add-agent' object.id %}">
+                            <button class="flex flex-col items-center justify-center ">
+                            <div class="p-2.5 bg-blue-100 rounded-full shadow hover:shadow-xl">
+                              <img src="{% static 'images/addstaff.png' %}"  alt="" class="w-6 ">
+                            </div>
+                            <p class="text-gray-700 text-sm mt-2 "> Add Staff</p>
+                            </button>
+                          </a>
+                        {% endif %}
+                        <a href="{% url 'campaigns:campaign-delete' campaign.pk %}"  class="">
+                          <button class="flex flex-col items-center justify-center ">
+                            <div class="p-2.5 bg-blue-100 rounded-full shadow hover:shadow-xl">
+                              <img src="{% static 'images/remove.png' %}"  alt="" class="w-6 ">
+                            </div>
+                            <p class="text-gray-700 text-sm mt-2 ">Remove</p>
+                          </button>
+                        </a> 
+
+                      {% endif %}
+                      
+      
+                  </div>
+                </div>
+              </div>
+              <hr class="mt-5">
+              <div>
+             
+               </div>
+              <div class="detailed">
+                {% comment %} <h1 class="mt-5 text-3xl font-bold">Leads</h1><hr width="120px">
+{% if request.user.is_organiser %}
+                <div class="border-b ">                 
+                    <button class=" my-3">
+                                    
+                    </button>
+                 
+                </div>
+  {% endif %}
+   {% endcomment %}
+
+
+  {% if leads.exists %}    
+        <div class="container w-full   mx-auto px-2 ">
+            <!--Title-->
+            <h1 class="flex items-center  font-bold break-normal  px-3 mt-20 pt-8 text-xl md:text-2xl">
+              Leads under the campaign
+
+            </h1>
+              <!--Card-->
+              <div id='recipients' class="p-3 mt-0 lg:mt-0 rounded w-full bg-white">
+                <table id="example" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                  <thead>
+                    <tr>
+                      <th data-priority="1">Name</th>
+                      <th data-priority="2">Status</th>
+                      <th data-priority="3">Date Added</th>
+                      {% comment %} <th data-priority="4">More</th> {% endcomment %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for lead in leads%}                            
+                        <tr>
+                          <td>
+                            <a href="{% url 'leads:lead-detail' campaign_id=campaign.id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                              {{lead.first_name}}
+                            </a>
+                          </td>
+                          <td>{{lead.category}}</td>
+                          <td>{{lead.date_added}}</td>
+                          {% comment %} <td>
+                            <a href="{% url 'leads:lead-detail' campaign_id=campaign.id pk=lead.id %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                              View More
+                            </a>
+                          </td> {% endcomment %}
+                        </tr>                           
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div><!--/Card-->
+        </div>
+    
+  {% else %}
+      <p class="mx-auto mb-5">sorry , There is no leads assigned for you right now.</p>
+      <a href="{% url 'dashboard' %}"><button class="button">Go back  </button></a>
+  {%endif%}
+
+                </div>
+                </div>
+      
+              </div>
+              <hr class="mt-10">
+              </div>
+              
+          </section>
+    
+         
+                     
+      </div>
+    <!-- End of content -->
+    
+    
+    </div>
+    
+    
+    <!-- JS File -->
+    <script type="text/javascript" src={% static 'js/main.js' %}></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+	<!--Datatables -->
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+	<script>
+		$(document).ready(function() {
+
+			var table = $('#example').DataTable({
+					responsive: true
+				})
+				.columns.adjust()
+				.responsive.recalc();
+		});
+	</script>
+    
+    
+      
+    {% endblock content %}
+    
+
+    
+    
+        
+      
+       

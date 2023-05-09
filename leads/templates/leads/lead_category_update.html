@@ -1,0 +1,75 @@
+{% extends "main.html" %}
+{% load tailwind_filters %}
+{% load static %}
+{% block content %}    
+    <style>
+      .button{
+        min-width: 100px;
+        padding: 7px 20px;
+        background: rgb(1, 12, 22);
+        border-radius: 20px;
+        box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+        color: aliceblue;    
+      }
+      .button a{
+        color: aliceblue;    
+      }
+    </style>    
+ 
+      <!-- Content -->    
+      <div class="sub-container "> 
+            <!-- # staff Detailed Session -->
+            <section class="flex flex-col justify-center flex-wrap items-center mt-10 pt-0">
+              <div class="container px-5  mx-auto">
+              <div class="basic flex flex-row flex-wrap">
+                <div class="icon w-20 h-20 p-0 border rounded-full mr-10">
+                    <img src="{% static 'images/user1.jpg' %}" alt="" class="w-20 h-20 rounded-full">
+                </div>
+                <div class="text-main flex flex-col">
+                  <h3 class="text-3xl font-bold">{{lead.first_name}}</h3>
+                  <p>Email: {{lead.email}}</p>
+                  <p>Status: {{lead.category}}</p>
+                  <div class="flex  flex-row flex-wrap gap-5  py-2">
+                      <span class="text-gray-500">Staff:</span>
+                      <div class=" text-gray-900  flex flex-row flex-wrap gap-2">                        
+                            {% for agent in lead.campaign.agent.all %}      
+                              <p class=" staff-badge rounded-xl  shadow px-3 text-center mb-2 " style="min-width:50px">{{ agent.user.username }}</p>
+                            {% endfor %}                       
+                      </div>
+                    </div>     
+                  <div class="buttons flex flex-row justify-between gap-5 pt-5 flex-wrap border-t border-gray-200">                      
+                      <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" >
+                          <button class="flex flex-col items-center justify-center ">
+                            <div class="p-2.5 bg-blue-100 rounded-full shadow hover:shadow-xl">
+                              <img src="{% static 'images/goback.png' %}"  alt="" class="w-6 ">
+                            </div>
+                            <p class="text-gray-700 text-sm mt-2 "> Go Back</p>
+                          </button>
+                      </a>                                       
+                  </div>
+                </div>
+              </div>
+              <hr class="mt-5">
+              <div class="detailed pt-5 max-w-screen-sm">
+                  <form method="post" class="max-w-xs">
+                      {%csrf_token%}
+                      {{form|crispy}}
+                      <button type="submit" class="button">Submit</button>
+                  </form>
+              </div>      
+            </div>                   
+          </section> 
+      </div>
+    <!-- End of content --> 
+    </div>
+    <!-- JS File -->
+    <script type="text/javascript" src={% static 'js/main.js' %}></script>
+    {% endblock content %}
+    
+    
+    
+    
+    
+        
+      
+       

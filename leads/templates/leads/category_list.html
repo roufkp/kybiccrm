@@ -1,0 +1,277 @@
+ 
+{% extends "main.html" %}
+{% load static %}
+{% load category_leads %}
+
+
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leads Management</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: sans-serif;
+		}
+    .show {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		width: 100%;
+		max-width: 600px;
+		background-color: transparent;
+		color: #fff;
+		padding: 10px;
+		text-align: center; 
+	}
+	  
+	  .show button{
+			padding: 10px 10px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 13px;
+			background: transparent;
+			width: auto;
+			color: #151515;
+			display: grid;
+			place-items: center;
+			margin: auto;
+				/* transition: alls 0.2s; */
+			width: fit-content;
+		}
+		.show button.active {
+			background-color: #ecf6dd;
+			color: #1d1b1c;
+			border: none;
+			cursor: pointer;
+			font-size: 13px;
+			/* transition: background-color 0.2s; */
+      		width: fit-content;
+      		height: fit-content;
+      		box-shadow: 6px 4px 20px 0px rgba(0, 0, 0, 0.195);
+		}
+		.show button img{
+			width: auto;
+			height: 40px;
+			margin: auto;
+
+		}
+		section {
+			padding: 20px;
+      box-shadow:inset -5px 0px 11px 1px rgba(0, 0, 0, 0.025195);
+      background: rgb(247, 250, 249);
+		}
+		section:not(:first-child) {
+			display: none;
+		}
+		h2 {
+			margin-top: 0;
+		}
+
+	</style>
+
+  <!-- main container -->
+  <div class="sub-container">
+    <h1 class="mt-10 mb-0 text-1xl font-bold ml-4 bg-gray-000 px-3 py-2 text-gray  md:text-2xl flex  " style="border-radius: 0px 25px 25px 0px;">
+      Hurray we've got ...
+      <img class="object-cover object-center rounded w-24" alt="hero" src="{% static 'images/celebration.png' %}">
+
+    </h1>  
+    <div class="total-count  " >
+      
+
+      {% for category, count in lead_counts %}
+        <div class="one flex justify-center" style="width: 110px;height: 110px;">
+          <div class=" text-center  my-auto">
+              
+              <h2>{{ count }}</h2>   
+              <p class="font-bold "> <strong>{{ category }} </strong><br> Leads</p>     
+          </div>
+        </div>
+        {% empty %}
+        <p class="m-auto md:ml-10">Sorry , We don't have any leads yet...</p>
+      {% endfor %}
+      
+      
+    </div>
+    <!-- buttons area  -->
+    <h1 class="mt-10 text-1xl bg-gray-800 px-3 py-2 text-white  md:text-2xl " style="border-radius: 0px 25px 25px 0px;">
+      Leads under categories</h1>  
+
+    <div class="show md:ml-8">
+      <button class="active" onclick="showSection(0)">
+        <img src="https://img.icons8.com/external-xnimrodx-lineal-xnimrodx/64/null/external-checklist-design-tools-xnimrodx-lineal-xnimrodx.png"/>
+        Follow up
+      
+      </button>
+      <button onclick="showSection(1)">
+        <img src="https://img.icons8.com/external-flatart-icons-solid-flatarticons/64/null/external-new-shopping-and-commerce-flatart-icons-solid-flatarticons.png"/>
+        New
+      
+      </button>
+      <button onclick="showSection(2)">
+        <img src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/48/null/external-success-business-and-finance-tanah-basah-glyph-tanah-basah.png"/>
+        Converted
+      
+      </button>
+      <button onclick="showSection(3)">
+        <img src="https://img.icons8.com/ios-filled/50/null/fail.png"/>
+        Rejected
+      
+      </button>
+    </div>
+
+    <!-- sections area  -->
+    <section class="">
+      <div class="sub-cont overflow-x-scroll md:ml-8">      
+          <h2 class="mb-10 font-bold text-2xl md:text-4xl">Follow up leads</h2>
+          <!-- <p>This is the follow up leads section.</p> -->
+          <table id="example1" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+            <thead>
+              <tr>
+                <th data-priority="1">Name</th>
+                <th data-priority="3">Date Added</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for lead_id, lead in follow_up_leads.items %}
+                <tr>
+                    <td>
+                      <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                        {{ lead.first_name }}
+                      </a>
+                    </td>
+                    <td>{{ lead.date_added }}</td>
+                </tr>
+              {% endfor %}                      
+            </tbody>
+          </table>
+      </div>
+    </section>
+    <section>
+      <div class="sub-cont overflow-x-scroll md:ml-8"> 
+      <h2 class="mb-10 font-bold text-2xl md:text-4xl">New leads</h2>
+      <table id="example2" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+        <thead>
+          <tr>
+            <th data-priority="1">Name</th>
+            <th data-priority="3">Date Added</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lead_id, lead in new_leads.items %}
+            <tr>
+                <td>
+                  <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                    {{ lead.first_name }}
+                  </a>
+                </td>
+                <td>{{ lead.date_added }}</td>
+            </tr>
+          {% endfor %}                          
+        </tbody>
+      </table>
+      </div>
+    </section>
+    <section>
+      <div class="sub-cont overflow-x-scroll md:ml-8"> 
+      <h2 class="mb-10 font-bold text-2xl md:text-4xl">Converted leads</h2>
+      <table id="example3" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+        <thead>
+          <tr>
+            <th data-priority="1">Name</th>
+            <th data-priority="3">Date Added</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lead_id, lead in converted_leads.items %}
+            <tr>
+                <td>
+                  <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                    {{ lead.first_name }}
+                  </a>
+                </td>
+                <td>{{ lead.date_added }}</td>
+            </tr>
+          {% endfor %}                            
+        </tbody>
+      </table>
+      </div>
+    </section>
+    <section>
+      <div class="sub-cont overflow-x-scroll md:ml-8">  
+      <h2 class="mb-10 font-bold text-2xl md:text-4xl">Rejected leads</h2>
+      <table id="example4" class="lead-list stripe hover" style="width:100% !important; padding-top: 1em;  padding-bottom: 1em;">
+        <thead>
+          <tr>
+            <th data-priority="1">Name</th>
+            <th data-priority="3">Date Added</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lead_id, lead in rejected_leads.items %}
+            <tr>
+                <td>
+                  <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                    {{ lead.first_name }}
+                  </a>
+                </td>
+                <td>{{ lead.date_added }}</td>
+            </tr>
+          {% endfor %}                            
+        </tbody>
+      </table>
+      </div>
+    </section>
+  </div>
+  <!-- main container ends  -->
+  <script type="text/javascript" src={% static 'js/main.js' %}></script>
+	<script>
+		const buttons = document.querySelectorAll('button');
+		const sections = document.querySelectorAll('section');
+    buttons[0].classList.add('active');
+		sections[0].style.display = 'block';
+
+		const showSection = (index) => {
+			buttons.forEach(button => button.classList.remove('active'));
+			buttons[index].classList.add('active');
+			sections.forEach(section => section.style.display = 'none');
+			sections[index].style.display = 'block';
+		};
+	</script>
+  <!--Datatables -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> 
+	<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script> 
+  <script>
+		$(document).ready(function() {
+
+        // var table = $('#exampletot').DataTable({
+				// 	responsive: true
+				// })
+			  var table = $('#example1').DataTable({
+					responsive: true
+				})
+        var table = $('#example2').DataTable({
+					responsive: true
+				})
+        var table = $('#example3').DataTable({
+					responsive: true
+				})
+        var table = $('#example4').DataTable({
+					responsive: true
+				})
+				
+		});    
+	</script> 
+
+
+
+
+{% endblock content %}

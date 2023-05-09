@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body {
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Roboto', sans-serif;
+    background: rgb(241, 252, 246);
+    background: transparent;
+}
+.main-container{
+    min-height: 80vh;
+    max-width: 1300px;
+    width: 95vw;
+    margin: auto;
+}
+.bg-blue {
+    background-color: rgb(249, 127, 70);
+  }
+  
+  .bg-indigo {
+    background-color: rgb(51, 251, 155);
+  }

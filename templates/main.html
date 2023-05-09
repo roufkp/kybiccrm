@@ -1,0 +1,182 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kybic CRM</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/table.css' %}">
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel=" stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    	<!--Regular Datatables CSS-->
+	<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+	<!--Responsive Extension Datatables CSS-->
+	<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/@themesberg/flowbite@1.1.1/dist/flowbite.bundle.js"></script>
+
+    
+    <style>
+        section{
+            width:100%;
+            margin:auto;
+        }
+        .lead {
+            padding:10px 6px;
+            margin-top: 10px;
+            background-color: #f99898;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="   mx-auto mt-1 pb-2 shadow" >
+        <nav class="max-w-8xl flex justify-between   px-2 mb-0">
+            <div class="container mx-auto flex flex-wrap items-center justify-between flex-row-reverse">
+                <a href="{% url 'landing-page' %}" class="flex mr-12">
+                <svg class="h-10 mr-3" width="51" height="70" viewBox="0 0 51 70" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><path d="M1 53H27.9022C40.6587 53 51 42.7025 51 30H24.0978C11.3412 30 1 40.2975 1 53Z" fill="#76A9FA"></path><path d="M-0.876544 32.1644L-0.876544 66.411C11.9849 66.411 22.4111 55.9847 22.4111 43.1233L22.4111 8.87674C10.1196 8.98051 0.518714 19.5571 -0.876544 32.1644Z" fill="#A4CAFE"></path><path d="M50 5H23.0978C10.3413 5 0 15.2975 0 28H26.9022C39.6588 28 50 17.7025 50 5Z" fill="#1C64F2"></path></g><defs><clipPath id="clip0"><rect width="51" height="70" fill="white"></rect></clipPath></defs></svg>
+                    <span class="self-center text-lg font-semibold whitespace-nowrap">KYBIC</span>
+                </a>
+                <div class="flex md:order-2">           
+                
+                </div>            
+            </div>
+        </nav>  
+     </div> 
+  
+     
+    <div class="side">
+        <div class="toggle">
+            <i class="bx bx-menu-alt-right"></i>
+        </div>
+    </div>
+    <div class="main">   
+        <div class="sidebar">         
+        
+            <div class="logo">
+                <img class="user-icon" alt="hero" src="{% static 'images/user1.jpg' %}">
+                <!-- <img src="" alt="pro pic"> -->
+                {% if request.user.is_authenticated %}
+                        <h3>{{request.user.username}}</h3>
+                {% endif %}
+            </div>
+        
+            <nav>    
+                {% if request.user.is_organiser %}
+                <div class="nav-title">
+                    Admin
+                </div>
+                {% else %}
+                <div class="nav-title">
+                    Staff
+                </div>
+                {% endif %}
+
+                <ul>
+                    <a href="{% url 'dashboard'%}">
+                    <li class="nav-item  ">
+                        <i class="bx bxs-dashboard"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    </a>
+                                        
+                    {% if request.user.is_organiser %}
+                        <a href="{% url 'leads:category-list'  %}" class="text-gray-500 hover:text-blue-500">
+                        <li class="nav-item">
+                            <i class="bx bxs-category"></i>
+                            <span>Categories</span>
+                        </li>
+                        </a>
+                        <a href="{% url 'agents:agent-list'%}">
+                        <li class="nav-item">
+                            <i class="bx bxs-user-badge"></i>
+                            <span>Staff</span>
+                        </li>
+                        </a>                                   
+                    {% else %}
+                    {% endif %}
+                    <a href="{% url 'campaign:campaign-list'  %}" class="text-gray-500 hover:text-blue-500">
+                        <li class="nav-item">
+                            <i class="bx bxs-buildings"></i>
+                            <span>Campaigns</span>
+                        </li>
+                    </a>                                   
+                    <a href="{% url 'logout' %}" ><li class="nav-item">
+                        <i class="bx bxs-log-out"></i>
+                        <span>Logout</span>
+                    </li></a>
+                </ul>        
+                <hr>        
+                <div class="nav-title">
+                    Supports
+                </div>        
+                <ul>
+                    <li class="nav-item">
+                        <i class="bx bxs-help-circle"></i>
+                        <span>Get Help</span>
+                    </li>
+                    <li class="nav-item">
+                        <i class="bx bxs-message-dots"></i>
+                        <span>Send Feedback</span>
+                    </li>
+                </ul>          
+            </nav>
+        </div>  
+  
+    {% block content %}
+    
+    {% endblock content %}
+
+    </div>
+    <!-- Main div ends -->
+<script>
+  const cards = document.querySelectorAll('.campaign-item');
+  const one = document.querySelectorAll('.one');
+  const staffs = document.querySelectorAll('.staff-badge');
+  const thead = document.querySelectorAll('table thead');
+  
+  const colors = ['bg-blue-100', 'bg-green-100', 'bg-pink-100', 'bg-yellow-100'];
+  let colorIndex = 0;
+  cards.forEach(card => {
+    card.classList.add(colors[colorIndex]);
+    colorIndex = (colorIndex + 1) % colors.length;
+  });
+  one.forEach(one => {
+    one.classList.add(colors[colorIndex]);
+    colorIndex = (colorIndex + 1) % colors.length;
+  });
+  staffs.forEach(staff => {
+    staff.classList.add(colors[colorIndex]);
+    colorIndex = (colorIndex + 1) % colors.length;
+  });
+  thead.forEach(thead => {
+    thead.classList.add(colors[colorIndex]);
+    colorIndex = (colorIndex + 1) % colors.length;
+  });
+</script>
+<script>
+    const navItems = document.querySelectorAll('.nav-item');
+
+navItems.forEach(item => {
+  item.addEventListener('click', () => {
+    // remove active class from all items
+    navItems.forEach(navItem => {
+      navItem.classList.remove('active');
+    });
+
+    // add active class to clicked item
+    item.classList.add('active');
+  });
+});
+
+</script>
+
+
+</body>
+</html>

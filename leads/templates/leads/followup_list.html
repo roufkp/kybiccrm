@@ -1,0 +1,98 @@
+
+
+{% extends "main.html" %}
+{% load static %}
+
+
+
+{% block content %}
+<!-- <nav>
+    <div class="company-logo">
+        <img src="{% static 'images/logo1.png' %}" alt="Kybic">
+    </div>
+
+</nav> -->
+
+
+
+<style>
+  .button{
+    min-width: 100px;
+    padding: 7px 20px;
+    background: rgb(1, 12, 22);
+    border-radius: 20px;
+    box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+    color: aliceblue;
+
+  }
+  .button a{
+    color: aliceblue;
+
+  }
+</style>
+
+<!-- Content -->
+
+<div class="sub-container "> 
+    <div class="bg-white py-5 sm:py-8">
+        <div class="container w-full md:w-4/5 xl:w-3/5  mx-auto px-2">
+            <!--Title-->
+            {% for status, leads in leads_by_status.items %}
+            <h1 class="flex items-center font-sans font-bold break-normal text-black-500 mt-8 px-3 pt-3 text-xl md:text-xl">
+                {{ status }}  
+            </h1>
+              <!--Card-->
+              <div id='recipients' class="p-3 mt-3 lg:mt-0 rounded  bg-white">
+                <table id="" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                  <thead>
+                    <tr>
+                        <th>Lead Name</th>
+                        <!-- <th>Campaign Name</th> -->
+                        <th>View More</th>
+                    </tr>
+                  </thead>
+                 <tbody>
+                    {% for lead in leads %}
+                        <tr>
+                            <td>{{ lead.first_name }} {{ lead.last_name }}</td>
+                            <!-- <td>{{ lead.campaign.name }}</td> -->
+                            <td>                                
+                                <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                                    Details
+                                </a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">No leads found.</td>
+                        </tr>
+                    {% endfor %}
+                 </tbody>
+                </table>
+              </div><!--/Card-->
+              {% endfor %}
+        </div>
+    </div>                 
+</div>
+<!-- End of content -->
+
+
+</div>
+
+
+<!-- JS File -->
+<script type="text/javascript" src={% static 'js/main.js' %}>
+
+</script>
+
+
+
+  
+{% endblock content %}
+
+
+
+    
+  
+   
+       

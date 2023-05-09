@@ -1,0 +1,138 @@
+    {% extends "main.html" %}
+    {% load static %}
+    {% block content %}    
+    <style>
+      .button{
+        min-width: 100px;
+        padding: 7px 20px;
+        background: rgb(1, 12, 22);
+        border-radius: 20px;
+        box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+        color: aliceblue;
+    
+      }
+      .button a{
+        color: aliceblue;
+    
+      }
+    </style>    
+    <!-- Content -->
+    
+      <div class="sub-container "> 
+            <!-- # staff Detailed Session -->
+
+            <section class="flex flex-col justify-center flex-wrap items-center">
+              <div class="container px-5 py-10 mx-auto">
+              <div class="basic flex flex-row flex-wrap">
+                <div class="icon w-20 h-20 p-0 border rounded-full mr-10">
+                    <img src="{% static 'images/user1.jpg' %}" alt="" class="w-20 h-20 rounded-full">
+                </div>
+                <div class="text-main flex flex-col">
+                  <h3>{{agent.user.username}}</h3>
+                  <p>ID: {{agent.user.id}}</p>
+                  <p>Email: {{agent.user.email}}</p>
+                  {% comment %} <p>Email: {{agent.user.password}}</p> {% endcomment %}
+                  <p>Role: {{agent.user.role}}</p>
+                  <p>Created: {{agent.user.date_joined}}</p>
+      
+                  <div class="buttons flex flex-row justify-start gap-5 mt-5 flex-wrap">
+                      {% comment %}  <a href="tel:+{{}}">
+                        <button class="button">
+                          <i class="bx bxs-phone-call"></i>
+                          Call
+                        </button>
+                      </a>  
+                      <a href="mailto:{{agent.user.email}}">
+                        <button class="button">
+                          <i class="bx bxs-send"></i>
+                          Email
+                        </button>
+                      </a>
+                      {% endcomment %}
+                      <a href="{% url 'agents:agent-update' agent.pk %}"  class="">
+                        <button class="button">Update Details</button>
+                      </a>
+                      <a href="{% url 'agents:agent-delete' agent.pk %}"  class="">
+                        <button class="button">Remove</button>
+                      </a>
+      
+                  </div>
+                </div>
+              </div>
+              <hr class="mt-5">
+              <div class="detailed">
+              {% comment %} {% if campaigns_exist %} {% endcomment %}
+              
+{% if campaigns.exists %}
+<div class="bg-white py-0 sm:py-0">
+ <h1 class="mt-5 mx-auto text-xl font-bold border-b  sm:text-xl ">Assigned Campigns</h1>
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto mt-2 grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8  pt-10   lg:mx-0 lg:max-w-none lg:grid-cols-3">
+      {% for campaign in campaigns %}  
+      
+      <article class=" campaign-item flex max-w-xs flex-col items-start justify-between drop-shadow border border-dotted rounded-2xl px-3 py-3 border-black-800 max-w-xs   hover:border-solid" style="max-width:280px">
+      {% comment %} <article class="flex max-w-xl flex-col items-start justify-between"> {% endcomment %}
+        <div class="flex items-center gap-x-4 text-xs">
+          <time datetime="2020-03-16" class="text-gray-500"> Start: {{campaign.start_date}}</time>
+          <time datetime="2020-03-16" class="text-gray-500"> End: {{campaign.end_date}}</time>
+        </div>
+        <div class="group relative">
+          <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 uppercase group-hover:text-gray-600">
+            <a href="#">
+              <span class="absolute inset-0 "></span>
+              {{campaign.name}}
+            </a>
+          </h3>
+          <p class="mt-5 text-sm leading-6 text-gray-600 line-clamp-3">
+            Goal of the campaign: {{campaign.description}}
+          </p>
+        </div>
+        
+        
+        <div>
+            <a href="{% url 'campaigns:campaign-detail' campaign.pk %}">
+              <button class="button mt-5"> View More</button>
+            </a>
+        </div> 
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% else %}
+<p>No campaign is assigned</p>
+{% endif %} 
+              {% comment %} {% else %} {% endcomment %}
+                
+              {% comment %} {% endif %} {% endcomment %}
+              </div>
+             
+              </div>
+              
+          </section>
+    
+         
+                     
+      </div>
+    <!-- End of content -->
+    
+    
+    </div>
+    
+    
+    <!-- JS File -->
+    <script type="text/javascript" src={% static 'js/main.js' %}>
+    
+    </script>
+    
+    
+    
+      
+    {% endblock content %}
+    
+    
+    
+    
+    
+        
+      

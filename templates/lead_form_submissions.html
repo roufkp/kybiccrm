@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    
+    
+<div class="main-container ">
+ 
+
+<h1>Lead Form Submissions</h1>
+<ul>
+hi
+{% for submission in submissions %}
+    <li>
+   
+        <strong>Full Name:</strong> {{ submission.full_name }}<br>
+        <strong>Email:</strong> {{ submission.email }}<br>
+        <strong>Phone Number:</strong> {{ submission.phone_number }}<br>
+        <strong>Date Submitted:</strong> {{ submission.date_submitted }}<br>
+    </li>
+{% endfor %}
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <!-- component -->
+
+</div>
+{% endblock content %}

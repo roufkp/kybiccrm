@@ -1,0 +1,434 @@
+    {% extends "base.html" %}
+    {% load static %}
+    {% block content %}
+    
+
+
+
+
+  <div class="main-container">
+    <section class="text-gray-600 body-font w-full">
+      <div class="container px-5 py-24 mx-auto flex flex-wrap">
+          <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200 ">
+            <div>
+                <h1 class="text-4xl text-gray-800">
+                    Leads
+                </h1>
+
+            </div>
+            <div>
+                <a href="{% url 'leads:category-list'  %}" class="text-gray-500 hover:text-blue-500">Categories</a>                
+
+            </div>
+            <div>
+            {% if request.user.is_organiser %}
+                <a href="{% url 'leads:lead-create' %}" class="text-gray-500 hover:text-blue-500">create a new lead</a>                
+            {% endif %}
+            </div>
+          </div>
+      
+        <div class="flex flex-wrap -m-4">
+
+
+            {% comment %} Assigned  leads listing {% endcomment %}
+
+
+            {% for lead in leads%}
+                <div class="p-4 lg:w-1/2 md:w-full">
+                  <div class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
+                    <div class="w-16 h-16 sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0">
+                          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-8 h-8" viewBox="0 0 24 24">
+                          <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                          </svg>
+                    </div>
+                    <div class="flex-grow">
+                      <h2 class="text-gray-900 text-lg title-font font-medium mb-3">
+                      {{lead.first_name}} {{lead.last_name}}
+                      </h2>
+                      <p class="leading-relaxed text-base">
+                      Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine.
+                      </p>
+                      <a href="{% url 'leads:lead-detail' lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">View Lead details
+                        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                          <path d="M5 12h14M12 5l7 7-7 7"></path>
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+
+      <div class="mt-12 mb-0">
+        <div>
+          <h1 class="text-3xl text-gray-800">
+              Unassigned Leads
+          </h1>
+        </div>
+<div class="mt-0 flex flex-wrap -m-4 ">
+  {% comment %} unassigned leads listing {% endcomment %}
+
+  {% if unassigned_leads.exists %}
+        {% for lead in unassigned_leads%}
+            <div class="p-4 lg:w-1/2 md:w-full">
+                 
+              <div class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
+                <div class="w-16 h-16 sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0">
+                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-8 h-8" viewBox="0 0 24 24">
+                      <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                      </svg>
+                </div>
+                <div class="flex-grow">
+                  <h2 class="text-gray-900 text-lg title-font font-medium mb-3">
+                  {{lead.first_name}} {{lead.last_name}}
+                  </h2>
+                  <p class="leading-relaxed text-base">
+                  Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine.
+                  </p>
+                  <a href="{% url 'leads:assign-agent' lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">Assign Agent
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                      <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+  
+  {% endif %}
+</div>
+      </div>           
+       
+      </div>
+</section>
+  </div>
+   
+    
+    {% comment %} <h1>This is all about leads</h1>
+    {% for lead in leads%}
+        <div class="lead">
+            <a href="{% url 'leads:lead-detail' lead.pk %}">
+            {{lead.first_name}} {{lead.last_name}}.   </a>Age: {{lead.age}}
+     
+        </div>
+    {%endfor%} {% endcomment %}
+
+
+ {% endblock content %}
+
+
+
+ {% extends "main.html" %}
+{% load static %}
+
+
+
+{% block content %}
+<!-- <nav>
+    <div class="company-logo">
+        <img src="{% static 'images/logo1.png' %}" alt="Kybic">
+    </div>
+
+</nav> -->
+
+<div class="side">
+    <div class="toggle">
+        <i class="bx bx-chevron-right"></i>
+    </div>
+</div>
+<div class="main">
+
+ 
+    
+    
+    
+    <div class="sidebar">
+        
+    
+        <div class="logo">
+            <img class="user-icon" alt="hero" src="{% static 'images/user1.jpg' %}">
+            <!-- <img src="" alt="pro pic"> -->
+    {% if request.user.is_authenticated %}
+            <h3>{{request.user.username}}</h3>
+
+
+
+{%endif%}
+        </div>
+    
+        <nav>
+    
+            <div class="nav-title">
+                MENU
+            </div>
+    
+            <ul>
+                <li class="nav-item active">
+                    <i class="bx bxs-dashboard"></i>
+                    <span>Dashboard</span>
+                </li>
+                <a href="{% url 'leads:lead-list'%}"><li class="nav-item">
+                    <i class="bx bxs-bar-chart-alt-2"></i>
+                    <span>Leads</span>
+                </li></a>
+                <a href="{% url 'agents:agent-list'%}"><li class="nav-item">
+                    <i class="bx bxs-wallet"></i>
+                    <span>Staff</span>
+                </li></a>
+                <li class="nav-item">
+                    <i class="bx bxs-bell"></i>
+                    <span>Company</span>
+                </li>
+                <a href="{% url 'logout' %}" ><li class="nav-item">
+                    <i class="bx bxs-cog"></i>
+                    <span>Logout</span>
+                </li></a>
+            </ul>
+    
+            <hr>
+    
+            <div class="nav-title">
+                Supports
+            </div>
+    
+            <ul>
+                <li class="nav-item">
+                    <i class="bx bxs-help-circle"></i>
+                    <span>Get Help</span>
+                </li>
+                <li class="nav-item">
+                    <i class="bx bxs-message-dots"></i>
+                    <span>Send Feedback</span>
+                </li>
+            </ul>
+        
+    
+        </nav>
+    </div>    
+  
+
+
+
+    <div class="sub-container">
+
+
+        <!-- # Total Count Session -->
+
+        <div class="total-count">
+            <div class="tot"></div>
+            <div class="one">
+                <div class="text">
+                    <h4>Total</h4>
+                <h2>2550</h2>
+                <p>Know More</p>
+                </div>
+            </div>
+            <div class="one">
+                <div class="text">
+                    <h4>Total</h4>
+                <h2>2550</h2>
+                <p>Know More</p>
+                </div>
+            </div>
+            <div class="one">
+                <div class="text">
+                    <h4>Total</h4>
+                <h2>2550</h2>
+                <p>Know More</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- # New Lead Session -->
+        <div class="new-leads">
+            <div class="two">
+                <div class="text">
+                    <h4>Total</h4>
+                <h2>2550</h2>
+                <p>Know More</p>
+                </div>
+            </div>
+            <div class="two">
+                <div class="text">
+                    <h4>Total</h4>
+                <h2>2550</h2>
+                <p>Know More</p>
+                </div>
+            </div>
+            <div class="two">
+                <div class="text">
+                    <h4>Total</h4>
+                <h2>2550</h2>
+                <p>Know More</p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- # Total Lead Session -->
+
+        <div class="total-leads">
+            <div id="table-container" style="height: 300px; overflow-y: scroll;">
+                <table>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Company</th>
+                        <th>More</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Row 1, Column 1</td>
+                        <td>Row 1, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                      </tr>
+                      <tr>
+                        <td>Row 2, Column 1</td>
+                        <td>Row 2, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 2, Column 3</td>
+                      </tr>
+                      <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 3, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 3, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 888, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 3, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 3, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 888, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 3, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 1, Column 3</td>
+                        <td>Row 3, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 888, Column 2</td>
+                        <td>Row 3, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 3, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 888, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 3, Column 3</td>
+                      </tr> <tr>
+                        <td>Row 3, Column 1</td>
+                        <td>Row 3, Column 2</td>
+                        <td>Row 3, Column 3</td>
+                      </tr>
+                      <!-- continue adding rows up to 100 -->
+                      <tr>
+                        <td>Row 100, Column 1</td>
+                        <td>Row 100, Column 2</td>
+                        <td>Row 100, Column 3</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              
+              <div class="buttons">
+                <button id="prev-btn">Previous</button>
+              <button id="next-btn">Next</button>
+              </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- JS File -->
+<script type="text/javascript" src={% static 'js/main.js' %}>
+
+</script>
+
+
+
+  
+{% endblock content %}
+
+
+
+
+    
+  
+   

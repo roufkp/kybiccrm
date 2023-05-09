@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body {
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Roboto', sans-serif;
+    background: rgb(241, 252, 246);
+    background: transparent;
+}
+.main-container{
+    min-height: 80vh;
+    max-width: 1300px;
+    width: 95vw;
+    margin: auto;
+}
+.bg-blue {
+    background-color: rgb(249, 127, 70);
+  }
+  
+  .bg-indigo {
+    background-color: rgb(51, 251, 155);
+  }
+  #c1{
+    width: 80%;
+    max-width: 200px;
+    margin:auto;
+    animation-name: anim1;
+    animation-duration: 5s;
+  animation-iteration-count: infinite;
+  }
+  @keyframes anim1 {
+    
+    0% {transform:translateY(0px);}
+    50% {transform:translateY(40px);}
+    100% {transform:translateY(0px);}
+  }

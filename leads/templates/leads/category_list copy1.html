@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Categories</h2>
+      <br>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Category Name</th>
+            <th>Lead Count</th>
+            <th>FollowUp Count</th>
+            <th>Next FollowUp Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for category in category_list %}
+            <tr>
+              <td>{{ category.name }}</td>
+              <td>{{ category.lead_count }}</td>
+              <td>{{ category.followup_count }}</td>
+              <td>{% if category.next_followup %}{{ category.next_followup|date:"M d, Y" }}{% else %}N/A{% endif %}</td>
+              {% comment %} <td><a href="{% url 'leads:lead-category-update' campaign_id=lead.campaign_id pk=lead.pk%}" class="btn btn-primary btn-sm">Edit</a></td> {% endcomment %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}

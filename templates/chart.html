@@ -1,0 +1,86 @@
+<html>
+<head>
+  <title>Chart Data</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <style>
+     .button{
+        min-width: 100px;
+        padding: 7px 20px;
+        background: rgb(1, 12, 22);
+        border-radius: 20px;
+        box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.1184);
+        color: aliceblue;    
+      }
+      .button a{
+        color: aliceblue;    
+      }
+      form div{
+       
+        border-radius:10px;
+        padding: 3px 0px;
+        width:200px;
+      }
+      form input{
+        background:aliceblue;
+        text-align:center;
+        padding:6px 0;
+        box-shadow:  1px 3px 9px 1px rgba(0, 0, 0, 0.01184);
+        border-radius:5px;
+        font-size:13px;
+
+      }
+  </style>
+
+<div class="flex flex-row gap-10 flex-wrap items-center content-start ">
+  <canvas id="myChart" class=" px-5 py-5 rounded-xl shadow-md hover:shadow-xl "></canvas>
+  <div class=" px-5 py-5 rounded shadow-md hover:shadow-xl mx-auto">
+    <p class="ml-5">Converted Leads: <span class="text-2xl font-bold">{{leads_converted_in_date_range}}</span></p>
+    {% comment %} <p>Follow Leads: <span class="text-2xl font-bold">{{total_followup_leads_in_date_range}}</span></p> {% endcomment %}
+  </div>
+<div class=" px-5 py-5 rounded-xl shadow-md hover:shadow-xl mx-auto mb-5">
+  <h2 class="text-lg font-bold  mt-2 ">Select Date Range</h2> <hr>
+  <form method="get" action="." class="font-medium text-s flex flex-col flex-wrap items-start mt-5  ">
+    <div class="mb-3">
+      <label for="start_date">Start Date:</label>
+      <input type="date" id="start_date" name="start_date" value="{{ start_date_str }}">
+    </div>
+    <div class="mb-3">
+      <label for="end_date">End Date:</label>
+      <input type="date" id="end_date" name="end_date" value="{{ end_date_str }}">
+    </div>  
+    <button type="submit" class="button mt-3 ">Filter</button>
+  </form>
+</div>
+  {% if chart_data %}   
+    <script>
+      const chartData = {
+        labels: {{ chart_data.labels|safe }},
+        datasets: [{
+          label: 'Converted Leads',
+          data: {{ chart_data.datasets.0.data|safe }},
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgb(255, 99, 132)',
+          borderWidth: 1
+        }]
+      };
+      const ctx = document.getElementById('myChart').getContext('2d');
+      const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    </script>
+  {% endif %}
+</div>
+</body>
+</html>

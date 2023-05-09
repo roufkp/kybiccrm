@@ -1,0 +1,86 @@
+{% extends "main.html" %}
+{% load tailwind_filters %}
+{% load static %}
+{% block content %}    
+    <style>
+      .button{
+        min-width: 100px;
+        padding: 7px 20px;
+        background: rgb(1, 12, 22);
+        border-radius: 20px;
+        box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+        color: aliceblue;    
+      }
+      .button a{
+        color: aliceblue;    
+      }
+    </style>    
+      <!-- Content -->    
+      <div class="sub-container "> 
+            <!-- # staff Detailed Session -->
+            <section class="flex flex-col justify-center flex-wrap items-center">
+              <div class="container px-5 py-24 mx-auto">
+              <div class="basic flex flex-row flex-wrap">
+                <div class="icon w-20 h-20 p-0 border rounded-full mr-10">
+                    <img src="{% static 'images/user1.jpg' %}" alt="" class="w-20 h-20 rounded-full">
+                </div>
+                <div class="text-main flex flex-col">
+                  <h3 class="text-3xl font-bold">{{lead.first_name}} {{lead.last_name}}</h3>
+                  <p>Email: {{lead.email}}</p>
+                  <p>Status: {{lead.category}}</p>
+                  <p>Agent: {{lead.agent}}</p>      
+                  <div class="buttons flex flex-row justify-between gap-5 mt-5 flex-wrap">
+                      {% comment %} <a href="tel:+{{lead.phone_number}}">
+                        <button class="button">
+                          <i class="bx bxs-phone-call"></i>
+                          Call
+                        </button>
+                      </a>  
+                      <a href="mailto:{{lead.email}}">
+                        <button class="button">
+                          <i class="bx bxs-send"></i>
+                          Email
+                        </button>
+                      </a>
+                      <a href="{% url 'leads:lead-category-update' campaign_id=lead.campaign_id pk=lead.pk %}" >
+                        <button class="button">
+                          Status
+                        </button>
+                      </a> {% endcomment %}
+                      <!-- s -->
+                      {% if request.user.is_organiser  %}
+                        <a href="{% url 'leads:lead-delete' campaign_id=lead.campaign_id pk=lead.pk %}">
+                        <button class="button ">
+                          Delete
+                        </button>
+                        </a>  
+                      {% endif %}
+                     
+                  </div>
+                </div>
+              </div>
+              <div class="detailed max-w-screen-sm">
+                  <h1 class="mt-5 text-3xl font-bold"></h1>
+                  <form method="post">
+                    {%csrf_token%}
+                    {{form|crispy}}
+                    <button type="submit" class="button">Submit</button>
+                  </form>
+              </div>      
+            </div>
+                   
+          </section> 
+      </div>
+    <!-- End of content --> 
+    </div>
+    <!-- JS File -->
+    <script type="text/javascript" src={% static 'js/main.js' %}></script>
+    {% endblock content %}
+    
+    
+    
+    
+    
+        
+      
+       

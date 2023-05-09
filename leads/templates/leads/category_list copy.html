@@ -1,0 +1,192 @@
+
+
+
+
+ 
+{% extends "main.html" %}
+{% load static %}
+{% load category_leads %}
+
+
+
+{% block content %}
+<!-- <nav>
+    <div class="company-logo">
+        <img src="{% static 'images/logo1.png' %}" alt="Kybic">
+    </div>
+
+</nav> -->
+
+
+
+<style>
+  .button{
+    min-width: 100px;
+    padding: 7px 20px;
+    background: rgb(1, 12, 22);
+    border-radius: 20px;
+    box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+    color: aliceblue;
+
+  }
+  .button a{
+    color: aliceblue;
+
+  }
+</style>
+
+<!-- Content -->
+
+    <div class="sub-container " style="width: 98vw;max-width: 1200px; margin:auto;"> 
+        <!-- # Total Lead Session -->
+     <section class="text-gray-600 body-font ">
+ 
+
+        <div class="flex flex-col">
+            <h1 style="font-size: 2.1rem;text-align: center;margin-bottom: 20px;">Total Leads</h1>
+
+            <div class="flex justify-between flex-wrap items-baseline ml-5 ">
+                <p style="font-size: 1rem;text-align: center;">
+                    Check out the categories
+                </p>
+                {% comment %} <button class="button">
+                    <a href="{% url 'leads:category-create'%}" >Create a category</a>
+                </button>
+     {% endcomment %}
+            </div>
+            <hr class="mt-5">
+        </div>
+         
+</section>
+
+
+
+
+
+  <section>
+          <div class="container w-full md:w-4/5 xl:w-3/5  mx-auto mb-10 ">
+            <!--Title-->
+            <h1 class="flex items-center  font-bold break-normal mt-10 text-black-500 px-3 pt-8 text-xl md:text-2xl">
+              Lead Counts by Category
+            </h1>
+              <!--Card-->
+              <div id='recipients' class="p-3 mt-0 lg:mt-0 rounded  ">
+                <table id="example1" class="lead-list stripe hover " style="width:100%; padding-top: 1em;  padding-bottom: 1em;background:white;">
+                  <thead>
+                    <tr>
+                      <th data-priority="1">Category</th>
+                      <th data-priority="2">Count</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                        {% for category in categories %}
+                        <tr>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            {% for count in lead_counts %}
+                            {% if count.category__name == category.name %}
+                                {{ count.count }}
+                            {% endif %}
+                            {% endfor %}
+                        </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+              </div><!--/Card-->
+          </div>
+
+
+  </section>
+  <section>
+
+{% for category in categories %}
+  <div class="container w-full md:w-4/5 xl:w-3/5 mx-auto">
+    <!-- Title -->
+   
+    <!-- Card -->
+     <div class="flex items-center justify-between mt-24">
+      <h1 class="flex items-center font-bold break-normal text-black-500  px-3 pt-3 text-xl md:text-xl">
+      {{ category.name }}
+    </h1>
+        <input type="text" placeholder="Search" class="w-2/3 px-3 py-2 border rounded border-gray-400" id="{{ category.name }}-search-box">
+    </div>
+    <div id="recipients" class="mt-3 lg:mt-0 rounded">
+      <table class="generated-table lead-list stripe hover mb-5" style="width:100%; padding-top:1em; padding-bottom:1em; background:white;">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>View</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lead in category_leads|get_item:category.name %}
+          <tr>
+            <td>{{ lead.first_name }} </td>
+            <td>
+              <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                Details
+              </a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6">No leads found for this category.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- Pagination -->
+      <div id="pagination" class="flex justify-center items-center my-3 gap-3"></div>
+    </div>
+  </div>
+{% endfor %}
+
+  </section>
+ 
+
+ 
+    </div>
+<!-- End of content -->
+
+
+</div>
+
+
+<!-- JS File -->
+<script type="text/javascript" src={% static 'js/main.js' %}></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+	<!--Datatables -->
+	{% comment %} <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> {% endcomment %}
+	{% comment %} <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script> {% endcomment %}
+	{% comment %} <script>
+		$(document).ready(function() {
+
+			var table = $('#example').DataTable({
+					responsive: true
+				})
+				.columns.adjust()
+				.responsive.recalc();
+		});
+    
+	</script> {% endcomment %}
+<script type="text/javascript" src={% static 'js/pagination.js' %} >
+// Define the table and pagination elements
+// Define the table and pagination elements
+
+
+</script>
+
+
+
+  
+{% endblock content %}
+
+
+
+
+    
+
+
+

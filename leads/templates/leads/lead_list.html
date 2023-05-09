@@ -1,0 +1,179 @@
+
+
+
+{% extends "main.html" %}
+{% load static %}
+
+
+
+{% block content %}
+<!-- <nav>
+    <div class="company-logo">
+        <img src="{% static 'images/logo1.png' %}" alt="Kybic">
+    </div>
+
+</nav> -->
+
+
+
+<style>
+  .button{
+    min-width: 100px;
+    padding: 7px 20px;
+    background: rgb(1, 12, 22);
+    border-radius: 20px;
+    box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+    color: aliceblue;
+
+  }
+  .button a{
+    color: aliceblue;
+
+  }
+</style>
+
+
+    <div class="sub-container"> 
+
+        <!-- # Total Lead Session -->
+
+        <div >
+        <section>
+       
+        </section>
+          <section class="text-gray-600 body-font " >
+            <div class="container px-5 py-24 mx-auto flex flex-wrap">
+                <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200 ">
+                 {% if request.user.is_organiser %}
+                  <div>
+                      <h1 class="text-4xl text-gray-800">
+                          Leads
+                      </h1>
+      
+                  </div>
+              
+                  <div>
+                 
+                    <button class="button">
+                      <a href="{% url 'leads:lead-create' %}" class="text-gray-500 hover:text-blue-500">create a new lead</a>                
+                    </button>
+                 
+                  </div>
+                </div>
+            
+              <div class="flex flex-col flex-wrap -m-4">
+      
+      
+                  {% comment %} New  leads listing {% endcomment %}
+      
+      
+            {% if unassigned_leads.exists %}
+                   <h2 class="mx-auto mb-5 mt-10">New Leads</h2>
+                   <div class="flex justify-center mb-10 flex-wrap"> 
+              {% for lead in unassigned_leads%}
+                  <div class="mx-3 border-2 border-blue-500 rounded-2xl mb-6">
+                       
+                    <div class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
+                      <div class="w-14 h-14 sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center rounded-full bg-transparent text-indigo-500 flex-shrink-0">
+                            <img src="{% static 'images/lead-icon.png' %}" alt="">
+                      </div>
+                      <div class="flex-grow">
+                        <h2 class="text-gray-900 text-lg title-font font-medium mb-3">
+                        {{lead.first_name}} {{lead.last_name}}
+                        </h2>
+                        <p class="leading-relaxed text-base">
+                        {{lead.date_added}}
+                        </p>
+                        <button class="button mt-3">
+                            <a href="{% url 'leads:assign-agent' lead.pk %}" class=" text-indigo-500 inline-flex items-center">Assign Agent
+                              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                              </svg>
+                            </a>
+                        </button>
+                        
+                      </div>
+                    </div>
+                  </div>
+              {% endfor %}
+            </div>
+           {% else %} 
+                   <h2 class="mx-auto mb-5 mt-10"> No New Leads to show here</h2>
+
+
+        <hr>
+
+              {% endif %}
+
+               {% endif %}
+
+
+                  <div class="total-leads">
+        {% if leads.exists %}
+        <h1 class="mb-5 mt-10 text-2xl">Assigned Leads</h1>
+                    <div id="table-container" style=" overflow-y: scroll;" class="bg-indigo-00 border-0 border-blue-00">     
+                        <table class="border-0 border-blue-500 ">
+                            <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Date Added</th>
+                                {% comment %} <th>Agent</th> {% endcomment %}
+                                <th>More</th>
+                                
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for lead in leads%}                            
+                              <tr>
+                                <td>{{lead.first_name}} {{lead.last_name}}</td>
+                                <td>{{lead.category}}</td>
+                                <td>{{lead.date_added}}</td>
+                                {% comment %} <td>{{lead.agent}}</td> {% endcomment %}
+                                <td>
+                                  <a href="{% url 'leads:lead-detail' campaign_id=campaign.id pk=lead.id  %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                                    View More
+                                  </a>
+                                </td>
+
+                              </tr>                           
+                            {% endfor %}                              
+                            </tbody>
+                          </table>
+                      </div>                      
+                      <div class="buttons">
+                        <button id="prev-btn" class="button">Previous</button>
+                      <button id="next-btn" class="button">Next</button>
+                      </div>
+                      {% else %}
+                          <p class="mx-auto mb-5">sorry , There is no leads assigned for you right now.</p>
+                          <a href="{% url 'dashboard' %}"><button class="button">Go back  </button></a>
+                      {% endif %}
+                </div>
+              </div>
+            </div>           
+             
+            </div>
+      </section>
+        </div>
+         
+    </div>
+</div>
+
+
+<!-- JS File -->
+<script type="text/javascript" src={% static 'js/main.js' %}>
+
+</script>
+
+
+
+  
+{% endblock content %}
+
+
+
+
+    
+  
+   

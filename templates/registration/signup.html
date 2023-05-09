@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+
+{% block content %}
+<style>
+    form{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 100px auto;
+        width:95vw;
+        max-width:300px;
+    }
+    form p{ 
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+}
+form input{
+
+}
+form li,small{
+ display:none;
+}
+p{
+    font-size: 14px;
+}
+
+ .button{
+    min-width: 100px;
+    padding: 7px 20px;
+    background: rgb(1, 12, 22);
+    border-radius: 20px;
+    box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+    color: aliceblue;
+
+  }
+  .button a{
+    color: aliceblue;
+
+  }
+  #div_id_password1,#div_id_password2,#div_id_username{
+    background:transparent;
+        width:90vw;
+    max-width:250px;
+  }
+</style>
+    <form method="post"> 
+        {% csrf_token %}
+        {{form|crispy}}
+        <button type="submit" class="button">Signup</button>
+    </form>
+    <hr>
+
+
+
+{% endblock content %}

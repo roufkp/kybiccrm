@@ -1,0 +1,227 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    
+    
+<div class="main-container ">
+  <section class="text-gray-600 body-font ">
+    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+      <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
+        <img class="object-cover object-center rounded" alt="hero" src="{% static 'images/bg3.png' %}">
+      </div>
+      <div class="lg:flex-grow md:w-1/2 lg:pl-auto md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
+        <h1 class="title-font text-3xl sm:text-4xl  mb-4 font-black text-gray-900">
+       Simplify Your Lead Management Process
+        </h1>
+        <p class="mb-8 leading-relaxed">
+        Our all-in-one lead management software helps you capture, score, and nurture leads for more conversions.
+        </p>
+        <div class="flex justify-center">
+        {% if request.user.is_authenticated  %}
+        
+       
+        {% else %}
+          <a href="{% url 'signup' %}"><button class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-700 rounded text-lg">Register</button></a>
+          <a href="{% url 'login' %}"><button class="inline-flex text-indigo-500 bg-yellow-200 ml-6 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 hover:text-white rounded text-lg">Login</button></a>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+ <section>
+  <!-- Logo Display -->
+        <div class="py-16 bg-white">
+            <div class="container m-auto px-6 space-y-8 md:px-12 lg:px-56">
+                <div class="m-auto text-center lg:w-7/12">
+                    <h2 class="text-2xl text-gray-700 font-bold md:text-4xl">Few of Our favorite partners.</h2>
+                </div>
+                <div class="flex flex-row overflow-x-scroll align-center justify-center">
+                    <div class="flex items-center justify-center m-4">
+                        <img src="https://www.sleekworld.com/etc/designs/sleek/sleek-clientlib/images/logo.svg" class="w-20" style="min-width:80px" alt="">
+                    </div>
+                    <div class="flex items-center justify-center m-4">
+                        <img src="https://jujugold.in/static/image/logo.png" class="w-20 bg-green-800" style="min-width:80px" alt="">
+                    </div>
+                    <div class="flex items-center justify-center m-4">
+                        <img src="https://littlemuminacademy.com/wp-content/uploads/2021/08/Little_Mumin_logo-117x115.png" class="w-20 " style="min-width:80px" alt="">
+                    </div>
+                    <div class="flex items-center justify-center m-4">
+                        <img src="https://s3.ap-south-1.amazonaws.com/data-continuouscarein/brand/logo/ae81341e-be0b-4518-8d50-2d25300b27b4/670e2b94-8.jpg" class="w-20 " style="min-width:80px" alt="">
+                    </div>
+                    <div class="flex items-center justify-center m-4">
+                        <img src="http://www.rokn.in/assets/images/logo/logo-dark.png" class="w-20" style="min-width:80px" alt="">
+                    </div>
+                    {% comment %} <div class="p-4">
+                        <img src="https://tailus.io/sources/blocks/company-site/preview/images/clients/microsoft.svg" class="w-32" alt="">
+                    </div>
+                    <div class="p-4">
+                        <img src="https://tailus.io/sources/blocks/company-site/preview/images/clients/coty.svg" class="w-20" alt="">
+                    </div>
+                    <div class="p-4">
+                        <img src="https://tailus.io/sources/blocks/company-site/preview/images/clients/client-4.png" class="w-24" alt="">
+                    </div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+</section>
+  <section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+                <div class="flex flex-col text-center w-full mb-20">
+                    <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">
+                    Why Choose Our 
+                    </h2>
+                    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+                    Lead Management Software
+                    </h1>
+                    <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
+                      At KYBIC, we understand the challenges that businesses face when it comes to managing leads effectively.
+                      That's why we've developed a comprehensive lead management software that streamlines the entire process and helps you close more deals.
+                    </p>
+                </div>
+      <div class="flex flex-wrap">
+                <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                    <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">All-in-one solution</h2>
+                    <p class="leading-relaxed text-base mb-4">
+                     Our software includes everything you need to manage your leads, from capturing and scoring to nurturing and closing.
+                    </p>
+                    {% comment %} <a class="text-indigo-500 inline-flex items-center">Learn More
+                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                      </svg>
+                    </a> {% endcomment %}
+                </div>
+                <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                    <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">User-friendly interface</h2>
+                    <p class="leading-relaxed text-base mb-4">
+                     Our software is designed to
+                     be intuitive and easy to use, even for those with little to no experience with lead management software.
+                    </p>
+                    {% comment %} <a class="text-indigo-500 inline-flex items-center">Learn More
+                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                      </svg>
+                    </a> {% endcomment %}
+                </div>
+                <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                    <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Customizable workflows</h2>
+                    <p class="leading-relaxed text-base mb-4">
+                     Our software is flexible and allows you to create workflows that align with your unique business needs.
+                    </p>
+                    {% comment %} <a class="text-indigo-500 inline-flex items-center">Learn More
+                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                      </svg>
+                    </a> {% endcomment %}
+                </div>
+                <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                    <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Real-time analytics</h2>
+                    <p class="leading-relaxed text-base mb-4">
+                     Our software provides you with real-time insights and analytics that help you make informed decisions about your lead management strategy.
+                    </p>
+                    {% comment %} <a class="text-indigo-500 inline-flex items-center">Learn More
+                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                      </svg>
+                    </a> {% endcomment %}
+                </div>
+      </div>
+      <a href="https://wa.me/{{lead.whatsapp_number}}">
+        <button class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+          Book a Demo
+        </button>
+      </a>
+    </div>
+  </section>
+
+  
+
+
+  <!-- Chat directly -->
+{% comment %} <div class="flex items-center justify-center  m-0 p-0">
+  <div class="w-full">
+    <div
+      class="formbold-form-wrapper mx-auto hidden w-full max-w-[550px] rounded-lg border border-[#e0e0e0] bg-white"
+    >
+      <div
+        class="flex items-center justify-between rounded-t-lg bg-[#6A64F1] py-4 px-9"
+      >
+        <h3 class="text-xl font-bold text-white">Lets connect us throug mail</h3>
+        <button onclick="chatboxToogleHandler()" class="text-white">
+          <svg width="17" height="17" viewBox="0 0 17 17" class="fill-current">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.474874 0.474874C1.10804 -0.158291 2.1346 -0.158291 2.76777 0.474874L16.5251 14.2322C17.1583 14.8654 17.1583 15.892 16.5251 16.5251C15.892 17.1583 14.8654 17.1583 14.2322 16.5251L0.474874 2.76777C-0.158291 2.1346 -0.158291 1.10804 0.474874 0.474874Z"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.474874 16.5251C-0.158291 15.892 -0.158291 14.8654 0.474874 14.2322L14.2322 0.474874C14.8654 -0.158292 15.892 -0.158291 16.5251 0.474874C17.1583 1.10804 17.1583 2.1346 16.5251 2.76777L2.76777 16.5251C2.1346 17.1583 1.10804 17.1583 0.474874 16.5251Z"
+            />
+          </svg>
+        </button>
+      </div>
+      {% include "contactform.html" %}
+    </div>
+    <div
+      class="mx-auto mr-0 mt-12 flex max-w-[550px] items-center justify-end space-x-5"
+    >
+      <button
+        class="flex h-[70px] w-[70px] items-center justify-center rounded-full bg-[#6A64F1] text-white"
+        onclick="chatboxToogleHandler()"
+      >
+        <span class="cross-icon hidden">
+          <svg
+            width="17"
+            height="17"
+            viewBox="0 0 17 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.474874 0.474874C1.10804 -0.158291 2.1346 -0.158291 2.76777 0.474874L16.5251 14.2322C17.1583 14.8654 17.1583 15.892 16.5251 16.5251C15.892 17.1583 14.8654 17.1583 14.2322 16.5251L0.474874 2.76777C-0.158291 2.1346 -0.158291 1.10804 0.474874 0.474874Z"
+              fill="white"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.474874 16.5251C-0.158291 15.892 -0.158291 14.8654 0.474874 14.2322L14.2322 0.474874C14.8654 -0.158292 15.892 -0.158291 16.5251 0.474874C17.1583 1.10804 17.1583 2.1346 16.5251 2.76777L2.76777 16.5251C2.1346 17.1583 1.10804 17.1583 0.474874 16.5251Z"
+              fill="white"
+            />
+          </svg>
+        </span>
+        <span class="chat-icon">
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19.8333 14.0002V3.50016C19.8333 3.19074 19.7103 2.894 19.4915 2.6752C19.2728 2.45641 18.976 2.3335 18.6666 2.3335H3.49992C3.1905 2.3335 2.89375 2.45641 2.67496 2.6752C2.45617 2.894 2.33325 3.19074 2.33325 3.50016V19.8335L6.99992 15.1668H18.6666C18.976 15.1668 19.2728 15.0439 19.4915 14.8251C19.7103 14.6063 19.8333 14.3096 19.8333 14.0002ZM24.4999 7.00016H22.1666V17.5002H6.99992V19.8335C6.99992 20.1429 7.12284 20.4397 7.34163 20.6585C7.56042 20.8772 7.85717 21.0002 8.16659 21.0002H20.9999L25.6666 25.6668V8.16683C25.6666 7.85741 25.5437 7.56066 25.3249 7.34187C25.1061 7.12308 24.8093 7.00016 24.4999 7.00016Z"
+              fill="white"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</div> {% endcomment %}
+
+<script>
+  const formWrapper = document.querySelector(".formbold-form-wrapper");
+  const crossIcon = document.querySelector(".cross-icon");
+  const chatIcon = document.querySelector(".chat-icon");
+  function chatboxToogleHandler() {
+    formWrapper.classList.toggle("hidden");
+    crossIcon.classList.toggle("hidden");
+    chatIcon.classList.toggle("hidden");
+  }
+</script>
+</div>
+{% endblock content %}

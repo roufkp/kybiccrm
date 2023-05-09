@@ -1,0 +1,178 @@
+
+{% extends "main.html" %}
+{% load static %}
+
+
+
+{% block content %}
+<!-- <nav>
+    <div class="company-logo">
+        <img src="{% static 'images/logo1.png' %}" alt="Kybic">
+    </div>
+
+</nav> -->
+
+
+
+<style>
+  .button{
+    min-width: 100px;
+    padding: 7px 20px;
+    background: rgb(1, 12, 22);
+    border-radius: 20px;
+    box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.0184);
+    color: aliceblue;
+
+  }
+  .button a{
+    color: aliceblue;
+
+  }
+</style>
+<!-- Content -->
+
+  <div class="sub-container "> 
+        <!-- # Total staff Session -->
+
+      
+
+<!--New-->
+
+
+
+
+
+
+
+<div class="bg-white " style="margin:50px auto;width: 100%;">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto flex flex-row flex-wrap justify-between items-end max-w-6xl border-b border-gray-200 lg:mx-0  ">
+    
+
+      <h2 class="text-xl font-bold tracking-tight text-gray-900 md:text-3xl  ">Campaigns</h2> 
+            {% if request.user.is_organiser %}
+                    <a href="{% url 'campaigns:campaign-create' %}" class="text-gray-500 hover:text-blue-500 ">                    
+                    <button class="flex flex-col items-center justify-center ">
+                          <div class="p-2.5 bg-blue-100 rounded-full shadow hover:shadow-xl">
+                            <img src="{% static 'images/newlead.png' %}"  alt="" class="w-6 ">
+                          </div>
+                          <p class="text-gray-700 text-sm mt-1 ">Add a campaign</p>
+                    </button>
+                    </a>
+                  </button>
+            {% endif %}
+    </div>
+    {% comment %} New campaigns  {% endcomment %}
+{% comment %} {% if request.user.is_organiser %}
+  {% if unassigned_campaigns.exists %}
+    <h2 class="mx-auto mb-5 mt-10">Unassigned Campaigns</h2>
+    <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+      {% for campaign in unassigned_campaigns%}
+      <article class="flex max-w-xs flex-col items-start justify-between drop-shadow border border-dotted rounded-2xl px-3 py-3 border-black-800 max-w-xs bg-blue-100 hover:bg-violet-100  hover:border-solid" style="max-width:280px">
+        <div class="flex items-center gap-x-4 text-xs">
+          <time datetime="2020-03-16" class="text-gray-500"> Start: {{campaign.start_date}}</time>
+          <time datetime="2020-03-16" class="text-gray-500"> End: {{campaign.end_date}}</time>
+        </div>
+        <div class="group relative">
+          <h3 class="mt-3 text-lg font-semibold leading-6 uppercase text-gray-900 group-hover:text-gray-600">
+            <a href="#">
+              <span class="absolute inset-0 "></span>
+              {{campaign.name}}
+            </a>
+          </h3>
+          <p class="mt-5 text-sm leading-6 text-gray-600 line-clamp-3">
+            Goal of the campaign: {{campaign.description}}
+          </p>
+        </div>
+        <div class="relative mt-8 flex items-center gap-x-4">
+          <img src="{% static 'images/user1.jpg' %}" alt="" class="h-10 w-10 rounded-full bg-gray-50">
+          <div class="text-sm leading-6">
+            <p class="font-semibold text-gray-900">
+              <a href="{% url 'campaign:assign-agent' campaign.pk %}">
+                <span class="absolute inset-0"></span>
+                <button class="button"> Assign an agent</button>
+              </a>
+            </p>
+            <p class="text-gray-600"></p>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+      
+    </div>
+    {% else %} 
+        <h2 class="mx-auto mb-5 mt-10"> No Unassigned Campaigns to show here</h2>
+ {% endif %}
+{% endif %} {% endcomment %}
+    {% comment %} New Campaigns ends {% endcomment %}
+    <div class="mx-auto mt-3 grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8  pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+      {% for campaign in campaigns %}  
+      <article class=" campaign-item flex max-w-xs flex-col items-start justify-between drop-shadow border border-dotted rounded-2xl px-3 py-3 border-black-800 max-w-xs   hover:border-solid" style="max-width:280px">
+        <div class="flex items-center gap-x-4 text-xs">
+          <time datetime="2020-03-16" class="text-gray-500"> Start: {{campaign.start_date}}</time>
+          <time datetime="2020-03-16" class="text-gray-500"> End: {{campaign.end_date}}</time>
+        </div>
+        <div class="group relative">
+          <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 uppercase group-hover:text-gray-600">
+            <a href="#">
+              <span class="absolute inset-0 "></span>
+              {{campaign.name}}
+            </a>
+          </h3>
+          <p class="mt-1 text-sm leading-6 text-gray-600 line-clamp-3">
+            Goal of the campaign: {{campaign.description}}
+          </p><p class="mt-5 text-sm leading-6 text-gray-600 line-clamp-3">
+            Total Leads: <strong class="text-2xl ">{{campaign.total_leads}}</strong>
+          </p>
+        </div>
+        {% if request.user.is_organiser %}
+        <div class="relative mt-2 flex items-center gap-x-4">
+          <img src="{% static 'images/user1.jpg' %}" alt="" class="h-10 w-10 rounded-full bg-gray-50">
+          <div class="text-sm leading-6">
+           <p class="text-gray-600 ">Assigned to: </p>
+            <div class=" text-gray-900  flex flex-row flex-wrap gap-2">
+              
+                <span class="absolute inset-0"></span>
+                {% for agent in campaign.agent.all %}      
+                    <p class="staff-badge rounded-2xl  shadow px-3 py-1 text-center text-sm " style="min-width:50px">{{ agent.user.username }}</p>
+                {% endfor %}  
+            
+            </div>
+           
+          </div> 
+        </div>
+        {% endif %}
+        <div>
+            <a href="{% url 'campaigns:campaign-detail' campaign.pk %}">
+              <button class="button mt-5 text-sm"> View More</button>
+            </a>
+        </div> 
+      </article>
+      {% endfor %}
+      
+
+      <!-- More posts... -->
+    </div>
+  </div>
+</div>
+
+                 
+  </div>
+<!-- End of content -->
+
+
+</div>
+
+
+<!-- JS File -->
+<script type="text/javascript" src={% static 'js/main.js' %}></script>
+
+
+  
+{% endblock content %}
+
+
+
+    
+  
+   

@@ -1,0 +1,119 @@
+{% extends "main.html" %}
+{% load static %}
+
+
+
+{% block content %}
+<!-- <nav>
+    <div class="company-logo">
+        <img src="{% static 'images/logo1.png' %}" alt="Kybic">
+    </div>
+
+</nav> -->
+
+
+
+<style>
+  .button{
+    min-width: 100px;
+    padding: 7px 20px;
+    background: rgb(1, 12, 22);
+    border-radius: 20px;
+    box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+    color: aliceblue;
+
+  }
+  .button a{
+    color: aliceblue;
+
+  }
+</style>
+
+<!-- Content -->
+
+    <div class="sub-container " style="width: 90vw;max-width: 1200px;"> 
+        <!-- # Total Lead Session -->
+			<section class="text-gray-600 body-font ">
+				<div class="flex flex-col items-center justify-center">           
+					<h1 class="font-bold text-3xl">
+						{{category.name}}
+					</h1>
+					<p class="my-5">
+						These are the leads under the category
+					</p>
+					<div class="flex flex-row flex-wrap justify-around gap-5">
+						<a href="{% url 'leads:category-update' category.pk %}" >
+							<button class="button">
+								Update Category
+							</button>
+						</a>
+						<a href="{% url 'leads:category-delete' category.pk %}" >
+							<button class="button">
+								Delete Category
+							</button>
+						</a>
+					</div>			
+				</div>
+					<hr class="mt-5">
+			
+				<div class="flex flex-col items-center  py-5 justify- center w-full">				
+					<div class="col-span-12">
+						<div class="overflow-auto lg:overflow-visible ">						
+							<div class="total-leads">
+								<div id="table-container" style=" overflow-x: scroll;" class="bg-indigo-00 border-2 border-blue-00">
+									<table class="table  border-separate space-y-6 text-sm">
+										<thead class="">
+											<tr>
+												<th class="p-3 text-left">First Name</th>
+												<th class="p-3 text-left">Last Name</th>
+												<th class="p-3 text-left">View Lead</th>
+
+											</tr>
+										</thead>
+										<tbody>				
+											{% for lead in  category.leads.all %}
+												<tr class="">
+													<td class="p-3">
+														{{lead.first_name}}
+													</td>
+													<td class="p-3 font-bold">
+														{{lead.last_name}}
+													</td>
+													<td class="p-3 font-bold">
+														<a class="hover:text-blue-500" href="{% url 'leads:lead-detail' lead.pk %}">View Details</a>
+													</td>
+												</tr>
+											{% endfor %}							
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</section>
+         
+    </div>
+<!-- End of content -->
+
+
+</div>
+
+
+<!-- JS File -->
+<script type="text/javascript" src={% static 'js/main.js' %}>
+
+</script>
+
+
+
+  
+{% endblock content %}
+
+
+
+
+    
+  
+   

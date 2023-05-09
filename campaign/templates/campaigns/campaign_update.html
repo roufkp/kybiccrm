@@ -1,0 +1,82 @@
+
+
+
+
+
+
+{% extends "main.html" %}
+{% load tailwind_filters %}
+{% load static %}
+{% block content %}    
+    <style>
+      .button{
+        min-width: 100px;
+        padding: 7px 20px;
+        background: rgb(1, 12, 22);
+        border-radius: 20px;
+        box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+        color: aliceblue;
+    
+      }
+      .button a{
+        color: aliceblue;
+    
+      }
+    </style>
+
+    
+    <!-- Content -->
+    
+      <div class="sub-container "> 
+            <!-- # staff Detailed Session -->
+
+            <section class="text-gray-600 body-font overflow-scroll">
+              <div class="container px-5 py-24 mx-auto">
+                <div class="lg:w-4/5 mx-auto flex flex-wrap">
+                  <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+                    <h2 class="text-sm title-font text-gray-500 tracking-widest">Campaign</h2>
+                    <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{campaign.name}} </h1>
+                    <div class="flex mb-4 justify-around ">
+                      <a href=" {% url 'campaigns:campaign-detail' campaign.pk %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
+                        <button class="button">
+                          Go Back
+                        </button>
+                      </a>
+                    </div>
+                    
+                        <form method="post">
+                            {%csrf_token%}
+                            {{form|crispy}}
+                            <button type="submit" class="button">Submit</button>
+                        </form>       
+                  </div>
+                </div>
+              </div>
+            </section> 
+    
+         
+                     
+      </div>
+    <!-- End of content -->
+    
+    
+    </div>
+    
+    
+    <!-- JS File -->
+    <script type="text/javascript" src={% static 'js/main.js' %}>
+    
+    </script>
+    
+    
+    
+      
+    {% endblock content %}
+    
+    
+    
+    
+    
+        
+      
+       

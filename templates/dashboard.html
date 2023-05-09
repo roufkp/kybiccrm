@@ -1,0 +1,122 @@
+{% extends "main.html" %}
+{% load static %}
+
+
+
+{% block content %}
+
+    <div class="sub-container-1 " >
+        <h1 ></h1>
+
+       
+        <!-- # Total Count Session -->
+
+        <div class="total-count border border-b-indigo-100 mb-3 pl-auto md:pl-10">
+            <div style="width:100%">
+                <p class="font-bold text-gray-400 ">Hi <strong class="uppercase text-gray-600">{{user.username}}</strong> , Welcome back...</p>
+                <img src="{% static 'images/dashboardbg.png' %}" alt="" class="w-60">
+            </div>
+
+            <div class="one ">
+                <div class="text">
+                    <p>Total</p>
+                    <h4>Campaigns</h4>
+                <h2>{{total_campaign_count}}</h2>
+                <p>
+                    <a href="{% url 'campaign:campaign-list' %}" class="flex flex-row items-center flex-wrap">
+                        View More <i class="bx bx-chevrons-right " style="margin-bottom:-2px"></i>
+                    </a>
+                </p>
+                </div>
+            </div>
+            <div class="one">
+                <div class="text">
+                    <h4>Total Leads</h4>
+                <h2>{{total_lead_count}}</h2>
+                <p>
+                    <a href="{% url 'leads:category-list' %}" class="flex flex-row items-center flex-wrap">
+                        View More <i class="bx bx-chevrons-right " style="margin-bottom:-2px"></i>
+                    </a>
+                </p>
+                </div>
+            </div>
+            <div class="one">
+                <div class="text">
+                    <p>Leads to</p>
+                    <h4>Follow Up</h4>
+                <h2>{{total_followup_leads}}</h2>                
+                <p>
+                    <a href="{% url 'leads:followup-list' %}" class="flex flex-row items-center flex-wrap">
+                        View More <i class="bx bx-chevrons-right " style="margin-bottom:-2px"></i>
+                    </a>
+                </p>
+                </div>
+            </div>
+            <div class="one">
+                <div class="text">
+                    <p>Total</p>
+                    <h4>Converted</h4>
+                <h2>{{converted_in_past30}}</h2>
+                <p>
+                    <a href="{% url 'leads:category-list' %}" class="flex flex-row items-center flex-wrap">
+                        View More <i class="bx bx-chevrons-right " style="margin-bottom:-2px"></i>
+                    </a>
+                </p>
+                </div>
+            </div>
+            
+        </div>
+        <div class="total-leads flex flex-row items-baseline pl-auto md:pl-10" style="height:auto;overflow:scroll">
+            <!-- # chart -->
+            {% include "chart.html" %}
+           
+        </div>
+ 
+
+        <!-- # New Lead Session -->
+
+  <!-- <h1 class="text-1xl font-bold  ml-5">Campaigns</h1> -->
+    <div class="total-count-2 border border-b-indigo-100 pl-auto md:pl-10">
+        <div class="" style="width:100%">
+            <p class="font-bold text-gray-400 pl-10"><strong class="uppercase text-gray-600">{{user.username}}</strong> , These are the Campaigns.</p>
+        </div>
+        
+        {% for campaign in campaigns %}
+        <div class="one">
+            <div class="text">
+                <h5>Campaign</h5>
+                <h4 class="uppercase">{{ campaign.name }}</h4>
+                {% comment %} <h5>Total Leads:{{ campaign.lead_count }}</h5> {% endcomment %}
+                <p>
+                    <a href="{% url 'campaigns:campaign-detail' campaign.pk %}" class="flex flex-row items-center flex-wrap">
+                        View More <i class="bx bx-chevrons-right " style="margin-bottom:-2px"></i>
+                    </a>
+                </p>
+            </div>
+        </div>
+        {% empty %}
+        No campaigns found.
+        {% endfor %}
+    </div>
+
+  
+
+       
+    </div>
+</div>
+
+
+<!-- JS File -->
+<script type="text/javascript" src={% static 'js/main.js' %}>
+</script>
+
+
+  
+{% endblock content %}
+
+
+
+
+    
+  
+   
