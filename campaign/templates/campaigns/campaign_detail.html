@@ -63,7 +63,7 @@
                                 <p class="text-gray-700 text-sm mt-2 "> Add lead</p>
                           </button>
                         </a>  
-                        {% if user.is_organiser and object.agent.count > 0 %}
+                        {% if user.is_organiser %}
                           <a href="{% url 'campaign:campaign-add-agent' object.id %}">
                             <button class="flex flex-col items-center justify-center ">
                             <div class="p-2.5 bg-blue-100 rounded-full shadow hover:shadow-xl">

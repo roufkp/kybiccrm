@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from leads.models import Campaign,Agent
+from django.forms import DateInput
 
 # class CampaignModelForm(forms.ModelForm):
 #     agent = forms.ModelMultipleChoiceField(queryset=Agent.objects.none())
@@ -38,6 +39,9 @@ class CampaignModelForm(forms.ModelForm):
             # 'agent',
             'description',
         )
+        widgets = {
+            'end_date': DateInput(attrs={'type': 'date'})
+        }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')

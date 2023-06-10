@@ -18,7 +18,8 @@ from leads.views import (
     LandingPageView,
     SignupView,
     dashboard,
-    DashboardView,
+    DashboardView,DownloadLeadsView,UploadCSVView,MatchFieldsView,ProcessDataView,
+    # CreateNotificationView, MarkAsReadView, ClearNotificationsView,create_lead_notification
  )
 from campaign.views import ContactView
 from fb_app.views import fb_callback
@@ -42,6 +43,7 @@ urlpatterns = [
     # path('',LandingPageView.as_view() , name="landing-page"),
     path('leads/', include('leads.urls',namespace="leads")),
     path('agents/', include('agents.urls',namespace="agents")),
+    path('membership/', include('membership.urls',namespace="membership")),
     path('campaigns/', include('campaign.urls',namespace="campaigns")),
     path('signup/',SignupView.as_view(),name='signup'),
     path('reset-password/', PasswordResetView.as_view(),name="reset-password"),
@@ -51,6 +53,15 @@ urlpatterns = [
     path('login/',LoginView.as_view(),name='login'),
     path('logout/',LogoutView.as_view(),name='logout'),
     # path('contact/',ContactUsView.as_view(), name='contact')
+    path('download/', DownloadLeadsView.as_view(), name='download_leads'),
+    # path('upload/', UploadCSVView.as_view(), name='upload'),
+    path('upload/', UploadCSVView.as_view(), name='upload'),
+    path('match-fields/', MatchFieldsView.as_view(), name='match-fields'),
+    path('process-data/', ProcessDataView.as_view(), name='process-data'),
+    # path('notifications/create/', CreateNotificationView.as_view(), name='create_notification'),
+    # path('notifications/create/', create_lead_notification, name='create_notification'),
+    # path('notifications/mark-as-read/<int:notification_id>/', MarkAsReadView.as_view(), name='mark_as_read'),
+    # path('notifications/clear/', ClearNotificationsView.as_view(), name='clear_notifications'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

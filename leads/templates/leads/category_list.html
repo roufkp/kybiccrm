@@ -78,9 +78,11 @@
 
   <!-- main container -->
   <div class="sub-container">
-    <h1 class="mt-10 mb-0 text-1xl font-bold ml-4 bg-gray-000 px-3 py-2 text-gray  md:text-2xl flex  " style="border-radius: 0px 25px 25px 0px;">
+  
+    <h1 class="mt-10 mb-0 text-xl font-bold ml-4 bg-gray-000 px-3 py-2 text-gray  md:text-xl flex  " style="border-radius: 0px 25px 25px 0px;">
       Hurray we've got ...
-      <img class="object-cover object-center rounded w-24" alt="hero" src="{% static 'images/celebration.png' %}">
+      {% comment %} <img class="object-cover object-center rounded w-24" alt="hero" src="{% static 'images/celebration.png' %}"> {% endcomment %}
+      <img width="100" height="100" src="https://img.icons8.com/bubbles/100/winner.png" alt="winner"/>
 
     </h1>  
     <div class="total-count  " >
@@ -101,8 +103,23 @@
       
     </div>
     <!-- buttons area  -->
-    <h1 class="mt-10 text-1xl bg-gray-800 px-3 py-2 text-white  md:text-2xl " style="border-radius: 0px 25px 25px 0px;">
+    <h1 class="mt-10 text-xl bg-gray-800 px-3 py-2 text-white  md:text-xl " style="border-radius: 0px 25px 25px 0px;">
       Leads under categories</h1>  
+
+  <div class="flex gap-5 flex-wrap  mt-3  items-center ml-3 ">
+      <div class=" px-5 py-2 flex justify-center flex-col  items-center shadow-lg bg-white rounded border hover:shadow-xl" >
+        <a href="{% url 'download_leads' %}" class="mx-auto">
+          <img width="50" height="50" src="https://img.icons8.com/bubbles/50/download.png" alt="download"  class="mx-auto"/>      
+          <p class= "text-xs" >Download Total Leads</p>
+        </a>
+      </div>
+      <div class=" px-5 py-2 flex justify-center flex-col items-center shadow-lg bg-white rounded border hover:shadow-xl" >
+        <a href="{% url 'upload' %}" class="mx-auto">
+        <img width="50" height="50" src="https://img.icons8.com/bubbles/50/upload.png" alt="upload" class="mx-auto"/>
+        <p class= "text-xs" >Upload Leads</p>
+        </a>
+      </div>
+  </div>
 
     <div class="show md:ml-8">
       <button class="active" onclick="showSection(0)">

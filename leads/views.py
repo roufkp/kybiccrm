@@ -26,6 +26,10 @@ from django.views import View
 from twilio.rest import Client
 from django.core.mail import EmailMessage
 from campaign.forms import ContactForm
+from django import forms
+# from .models import Notification
+from django.utils.datetime_safe import datetime
+import csv
 
 
 #CRUD - create,retreive,update,delete + list
@@ -65,10 +69,6 @@ def pricing_page(request):
 def services_page(request):
     return render(request,"services.html")
 
-
-
-
-
 def contactus_page(request):
     return render(request,"contactus.html")
 
@@ -95,6 +95,7 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
         converted_data = []
         if user.is_organiser:
             campaigns = Campaign.objects.filter(organisation=user.userprofile)     
+            
             # How many leads we have in total
             total_campaign_count = Campaign.objects.filter(organisation=user.userprofile).count()
             total_lead_count=Lead.objects.filter(campaign__organisation=user.userprofile).count()
@@ -108,7 +109,11 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
                 category=converted_category,
                 campaign__organisation=user.userprofile,
                 converted_date__gte=thirty_days_ago
-            ).count()        
+            ).count()   
+            total_converted = Lead.objects.filter(
+                campaign__organisation=user.userprofile,
+                category=converted_category,
+            ).count()    
             total_followup_leads = Lead.objects.filter(
                 campaign__organisation=user.userprofile,
                 category=followup_category,
@@ -122,12 +127,33 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
                     Q(converted_date__range=[start_date, end_date]),
                     Q(campaign__organisation=user.userprofile)
                 ).count()
-                total_followup_leads_in_date_range = Lead.objects.filter(
-                    Q(category=followup_category),
-                    Q(converted_date__range=[start_date, end_date]),
+
+                total_lead_count_date = Lead.objects.filter(
+                    Q(campaign__organisation=user.userprofile),
+                    Q(date_added__range=[start_date, end_date])
+                ).count()
+
+                new_lead_count_date = Lead.objects.filter(
+                    Q(category=Category.objects.get(name="New")),
+                    Q(campaign__organisation=user.userprofile),
+                    Q(date_added__range=[start_date, end_date])
+                ).count()
+                rejected_in_date_range = Lead.objects.filter(
+                    Q(rejected_date__range=[start_date, end_date]),
                     Q(campaign__organisation=user.userprofile)
                 ).count()
+
+                followup_in_date_range = Lead.objects.filter(
+                    Q(followup_date__range=[start_date, end_date]),
+                    Q(campaign__organisation=user.userprofile)
+                ).count()
+
             else:
+                total_lead_count_date = 0
+                new_lead_count_date = 0
+                rejected_in_date_range = 0
+                followup_in_date_range = 0
+                
                 leads_converted_in_date_range = 0
                 # total_followup_leads_in_date_range= 0
                 start_date = thirty_days_ago
@@ -160,10 +186,14 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
                 campaign__organisation = user.agent.organisation,
                 converted_date__gte=thirty_days_ago
             ).filter(campaign__agent__user = user).count()        
+            total_converted = Lead.objects.filter(
+                campaign__organisation = user.agent.organisation,
+                category=converted_category,
+            ).count()    
             total_followup_leads = Lead.objects.filter(
                 campaign__organisation = user.agent.organisation,
                 category=followup_category,
-            ).filter(campaign__agent__user = user).count()
+            ).count()
             # Total leads converted in a date range       
             if start_date_str and end_date_str:
                 start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
@@ -172,9 +202,36 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
                     Q(category=converted_category),
                     Q(converted_date__range=[start_date, end_date]),
                     Q(campaign__organisation = user.agent.organisation)
-                ).filter(campaign__agent__user = user).count()
+                ).count()
+
+                total_lead_count_date = Lead.objects.filter(
+                    Q(campaign__organisation = user.agent.organisation),
+                    Q(date_added__range=[start_date, end_date])
+                ).count()
+
+                new_lead_count_date = Lead.objects.filter(
+                    Q(category=Category.objects.get(name="New")),
+                    Q(campaign__organisation = user.agent.organisation),
+                    Q(date_added__range=[start_date, end_date])
+                ).count()
+                rejected_in_date_range = Lead.objects.filter(
+                    Q(rejected_date__range=[start_date, end_date]),
+                    Q(campaign__organisation = user.agent.organisation)
+                ).count()
+
+                followup_in_date_range = Lead.objects.filter(
+                    Q(followup_date__range=[start_date, end_date]),
+                    Q(campaign__organisation = user.agent.organisation)
+                ).count()
+
             else:
+                total_lead_count_date = 0
+                new_lead_count_date = 0
+                rejected_in_date_range = 0
+                followup_in_date_range = 0
+                
                 leads_converted_in_date_range = 0
+                # total_followup_leads_in_date_range= 0
                 start_date = thirty_days_ago
                 end_date = timezone.now()
             # Chart data for leads converted in date range
@@ -187,33 +244,50 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
                     Q(converted_date__month=day.month),
                     Q(converted_date__day=day.day),
                     Q(campaign__organisation = user.agent.organisation)
-                ).filter(campaign__agent__user = user).count()
+                ).count()
                 converted_data.append(count)
 
 
 
 
-
         chart_data = {
-            "labels": [day.strftime("%Y-%m-%d") for day in
-                       (start_date + timedelta(days=i) for i in range(date_range+1))],
+            "labels": ["Converted", "Rejected", "Follow-up", "New"],
             "datasets": [{
-                "label": "Converted Leads",
-                "data": converted_data,
-                "borderColor": 'rgb(255, 99, 132)',
-                "backgroundColor": 'rgba(255, 99, 132, 0.2)',
-                "tension": 0.1
+                "data": [
+                    leads_converted_in_date_range,
+                    rejected_in_date_range,
+                    followup_in_date_range,
+                    new_lead_count_date
+                ],
+                "backgroundColor": [
+                    '#f48000',   # Converted Leads
+                    '#b26cff',    # Rejected Leads
+                    '#0df4b2',    # Follow-up Leads
+                    '#dbff87'     # New Leads
+                ],
+                "borderColor": [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 206, 86)',
+                    'rgb(54, 162, 235)',
+                    'rgb(75, 192, 192)'
+                ],
+                "borderWidth": 1
             }]
-            
         }
+
         
         context.update({
             "campaigns":campaigns,
+            "rejected_in_date_range": rejected_in_date_range,
+            "followup_in_date_range": followup_in_date_range,
+            "total_lead_count_date": total_lead_count_date,
+            "new_lead_count_date": new_lead_count_date,
             "total_lead_count": total_lead_count,
             "total_campaign_count": total_campaign_count,
             "total_followup_leads":total_followup_leads,
             "total_in_past30": total_in_past30,
             "converted_in_past30": converted_in_past30,
+            "total_converted":total_converted,
             "chart_data": chart_data,
             "start_date_str": start_date_str,
             "end_date_str": end_date_str,
@@ -321,6 +395,13 @@ class LeadCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
         lead = form.save(commit=False)
         lead.campaign = campaign
         lead.save()
+        # Create a notification for the user
+        user = self.request.user
+        message = f"New lead: {lead.first_name} {lead.last_name}"
+        # notification = Notification.objects.create(user=user, campaign=campaign, message=message)
+
+        # create_lead_notification(lead)
+
         print("hi")
         # send mail
         send_mail(
@@ -494,15 +575,27 @@ class CategoryListView(LoginRequiredMixin, generic.ListView):
         rejected_leads = {}
 
     # Iterate through each lead and add it to the appropriate dictionary based on its category
+        # for lead in leads:
+        #     if lead.category.name == "Follow Up":
+        #         follow_up_leads[lead.id] = lead
+        #     elif lead.category.name == "New":
+        #         new_leads[lead.id] = lead
+        #     elif lead.category.name == "Converted":
+        #         converted_leads[lead.id] = lead
+        #     elif lead.category.name == "Rejected":
+        #         rejected_leads[lead.id] = lead
         for lead in leads:
-            if lead.category.name == "Follow Up":
-                follow_up_leads[lead.id] = lead
-            elif lead.category.name == "New":
+            if lead.category is not None:
+                if lead.category.name == "Follow Up":
+                    follow_up_leads[lead.id] = lead
+                elif lead.category.name == "New":
+                    new_leads[lead.id] = lead
+                elif lead.category.name == "Converted":
+                    converted_leads[lead.id] = lead
+                elif lead.category.name == "Rejected":
+                    rejected_leads[lead.id] = lead
+            else:
                 new_leads[lead.id] = lead
-            elif lead.category.name == "Converted":
-                converted_leads[lead.id] = lead
-            elif lead.category.name == "Rejected":
-                rejected_leads[lead.id] = lead
 
         # Add the dictionaries to the context
         context.update(
@@ -518,6 +611,34 @@ class CategoryListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
+
+# class LeadCategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
+#     template_name = "leads/lead_category_update.html"
+#     form_class = LeadCategoryUpdateForm
+
+#     def get_queryset(self):
+#         user = self.request.user
+#         campaign_id = self.kwargs['campaign_id']
+#         # filter leads for the current campaign
+#         queryset = Lead.objects.filter(campaign__id=campaign_id)
+#         return queryset
+
+#     def get_success_url(self):
+#         return reverse("leads:lead-detail", kwargs={"campaign_id": self.object.campaign.id, "pk": self.object.id})
+
+#     def form_valid(self, form):
+#         lead_before_update = self.get_object()
+#         instance = form.save(commit=False)
+#         converted_category = Category.objects.get(name="Converted")
+#         if form.cleaned_data["category"] == converted_category:
+#             # update the date at which this lead was converted
+#             if lead_before_update.category != converted_category:
+#                 # this lead has now been converted 
+#                 instance.converted_date = dt.datetime.now()
+#         instance.save()
+#         return super(LeadCategoryUpdateView, self).form_valid(form)
+
+from django.utils import timezone
 
 class LeadCategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "leads/lead_category_update.html"
@@ -537,14 +658,38 @@ class LeadCategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
         lead_before_update = self.get_object()
         instance = form.save(commit=False)
         converted_category = Category.objects.get(name="Converted")
-        if form.cleaned_data["category"] == converted_category:
-            # update the date at which this lead was converted
-            if lead_before_update.category != converted_category:
-                # this lead has now been converted 
-                instance.converted_date = dt.datetime.now()
-        instance.save()
-        return super(LeadCategoryUpdateView, self).form_valid(form)
+        rejected_category = Category.objects.get(name="Rejected")
+        followup_category = Category.objects.get(name="Follow Up")
 
+        if form.cleaned_data["category"] == converted_category:
+            # Check if the lead was not already converted
+            if lead_before_update.category != converted_category:
+                # Update the converted_date to the current datetime
+                instance.converted_date = timezone.now()
+                instance.followup_date = None
+                instance.rejected_date = None
+        elif form.cleaned_data["category"] == rejected_category:
+            # Check if the lead was not already rejected
+            if lead_before_update.category != rejected_category:
+                # Update the rejected_date to the current datetime
+                instance.rejected_date = timezone.now()
+                instance.followup_date = None
+                instance.converted_date = None
+        elif form.cleaned_data["category"] == followup_category:
+            # Check if the lead was not already set for follow-up
+            if lead_before_update.category != followup_category:
+                # Update the followup_date to the current datetime
+                instance.followup_date = timezone.now()
+                instance.rejected_date = None
+                instance.converted_date = None
+        else:
+            # Reset the converted_date, followup_date, and rejected_date to None if the lead is in any other category
+            instance.converted_date = None
+            instance.followup_date = None
+            instance.rejected_date = None
+        
+        instance.save()
+        return super().form_valid(form)
 
 class FollowUpListView(LoginRequiredMixin, View):
     template_name = 'leads/followup_list.html'
@@ -616,6 +761,7 @@ class FollowUpCreateView(LoginRequiredMixin, generic.CreateView):
         lead = get_object_or_404(Lead, pk=self.kwargs["pk"])
         followup = form.save(commit=False)
         followup.lead = lead
+        followup.created_by = self.request.user
         followup.save()
         return super().form_valid(form)
 
@@ -651,6 +797,180 @@ class FollowUpDeleteView(OrganiserAndLoginRequiredMixin, generic.DeleteView):
         return queryset
 
 
+
+
+class DownloadLeadsView(View):
+    def get(self, request, *args, **kwargs):
+        # Get the leads for the current user
+        user = self.request.user
+        if user.is_organiser:
+            # campaigns = Campaign.objects.filter(organisation=user.userprofile)     
+            leads=Lead.objects.filter(campaign__organisation=user.userprofile)  
+        else:
+            # campaigns = Campaign.objects.filter(organisation = user.agent.organisation).filter(agent__user = user)   
+            leads=Lead.objects.filter(campaign__organisation = user.agent.organisation).filter(campaign__agent__user = user)
+        # Define the filename
+        filename = "leads.csv"
+        
+        # Set the response headers
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+        
+        # Create the CSV writer and write the header row
+        writer = csv.writer(response)
+        writer.writerow(['First Name', 'Last Name', 'Age', 'Category', 'Campaign', 'Description', 'City', 'Q1', 'A1', 'Job Title', 'Date Added', 'Phone Number', 'WhatsApp Number', 'Email', 'Source', 'Converted Date'])
+        
+        # Write the leads to the CSV file
+        for lead in leads:
+            category_name = lead.category.name if lead.category else "New"  # Use "New" if category is None
+            writer.writerow([lead.first_name, lead.last_name, lead.age, category_name, lead.campaign.name, lead.description, lead.city, lead.q1, lead.a1, lead.job_title, lead.date_added, lead.phone_number, lead.whatsapp_number, lead.email, lead.source, lead.converted_date])
+
+        return response
+
+
+
+
+
+
+
+
+
+
+class UploadCSVForm(forms.Form):
+    csv_file = forms.FileField()
+
+
+class MatchFieldsForm(forms.Form):
+    def __init__(self, csv_columns, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for column in csv_columns:
+            self.fields[column] = forms.CharField(required=False)
+
+
+
+class UploadCSVView(View):
+    def get(self, request):
+        return render(request, 'leads/upload_file.html')
+    
+    def post(self, request):
+        csv_file = request.FILES.get('csv_file')
+        if not csv_file:
+            return render(request, 'leads/upload_file.html', {'error': 'No CSV file selected.'})
+        
+        decoded_file = csv_file.read().decode('utf-8').splitlines()
+        reader = csv.reader(decoded_file)
+        csv_columns = next(reader)  # Get the CSV column names
+        
+        # Store the CSV columns in session
+        request.session['csv_columns'] = csv_columns
+        request.session['decoded_file'] = decoded_file
+        
+        return redirect('match-fields')
+
+class MatchFieldsView(View):
+    def get(self, request):
+        csv_columns = request.session.get('csv_columns')
+        if not csv_columns:
+            return redirect('upload')
+
+        lead_fields = [field.name for field in Lead._meta.get_fields() if field.name != 'id']
+        # Remove the fields you want to exclude
+        excluded_fields = ['followups', 'is_read','date_added','converted_date']  # Replace with the field names you want to exclude
+        lead_fields = [field for field in lead_fields if field not in excluded_fields]
+
+
+        if 'campaign' in lead_fields:
+            lead_fields.remove('campaign')
+
+        if request.user.is_organiser:
+            campaigns = Campaign.objects.filter(organisation=request.user.userprofile)
+        else:
+            campaigns = Campaign.objects.filter(organisation=request.user.agent.organisation, agent__user=request.user)
+
+        return render(request, 'leads/match_fields.html', {'csv_columns': csv_columns, 'lead_fields': lead_fields, 'campaigns': campaigns})
+
+    def post(self, request):
+        csv_columns = request.session.get('csv_columns')
+        if not csv_columns:
+            return redirect('upload')
+
+        lead_fields = [field.name for field in Lead._meta.get_fields() if field.name != 'id']
+         # Remove the fields you want to exclude
+        excluded_fields = ['followups', 'is_read','date_added','converted_date']  # Replace with the field names you want to exclude
+        lead_fields = [field for field in lead_fields if field not in excluded_fields]
+
+
+        # Perform field mapping validation
+        mapping = {}
+        for column in csv_columns:
+            if column == 'campaign':
+                continue  # Skip mapping the campaign field
+            field_name = request.POST.get(f'field_{csv_columns.index(column)}')
+            if field_name in lead_fields:
+                mapping[column] = field_name
+
+        # Store the mapping and selected campaign in session
+        request.session['mapping'] = mapping
+        request.session['selected_campaign'] = request.POST.get('campaign')
+
+        return redirect('process-data')
+
+class ProcessDataView(View):
+    def get(self, request):
+        mapping = request.session.get('mapping')
+        selected_campaign = request.session.get('selected_campaign')
+
+        if not mapping or not selected_campaign:
+            return redirect('upload')
+
+        decoded_file = request.session.get('decoded_file')
+        if not decoded_file:
+            return redirect('upload')
+
+        reader = csv.DictReader(decoded_file)
+
+        # Retrieve the campaign object
+        campaign = Campaign.objects.get(name=selected_campaign)
+
+        # Store the CSV data into Lead model
+        for row in reader:
+            lead_kwargs = {}
+            for column, field_name in mapping.items():
+                if field_name == 'campaign':
+                    continue  # Skip mapping the campaign field
+                elif field_name == 'category':
+                    category_name = row[column]
+                    categories = Category.objects.filter(name=category_name)
+                    if categories.exists():
+                        category = categories.first()
+                        lead_kwargs[field_name] = category
+                    else:
+                        lead_kwargs[field_name] = None
+                elif field_name == 'datetime_field':
+                    datetime_str = row[column]
+                    try:
+                        datetime_obj = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
+                    except ValueError:
+                        datetime_obj = None  # Handle invalid datetime format or empty value
+                    lead_kwargs[field_name] = datetime_obj
+                else:
+                    lead_kwargs[field_name] = row[column]
+
+            # Set date_added and converted_date fields
+            lead_kwargs['date_added'] = datetime.now().date()
+            lead_kwargs['converted_date'] = None
+            lead_kwargs['campaign'] = campaign
+
+            Lead.objects.create(**lead_kwargs)
+
+        # Clear session data after processing
+        request.session.pop('csv_columns', None)
+        request.session.pop('mapping', None)
+        request.session.pop('decoded_file', None)
+        request.session.pop('selected_campaign', None)
+
+        return render(request, 'leads/upload_file.html', {'success': True})
+
 # class WhatsappMessagingView
 # class WhatsappMessagingView(OrganiserAndLoginRequiredMixin, View):
 
@@ -685,52 +1005,4 @@ class FollowUpDeleteView(OrganiserAndLoginRequiredMixin, generic.DeleteView):
 
 #         return HttpResponse("WhatsApp message sent successfully.")
 
-"""
-#Update Lead /normal mode
-def lead_update(request,pk):
-    lead = Lead.objects.get(id=pk)
-    form=LeadForm()
-    if request.method=="POST":
-        form=LeadForm(request.POST)
-        if form.is_valid():
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            age = form.cleaned_data['age']
-            lead.first_name = first_name
-            lead.last_name = last_name
-            lead.age = age
-            lead.save()
-            return redirect("/leads")
-    context={
-        "form":form,
-        "lead":lead
-    }
 
-    return render(request,"leads/lead_update.html",context)
-"""
-
-#create lead and store usinf normal django form
-"""def lead_create(request):
-    form=LeadForm()
-    if request.method=="POST":
-        form=LeadForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            age = form.cleaned_data['age']
-            #grab a agent from database(model Agent)
-            agent = Agent.objects.first()
-            #create new row in table
-            Lead.objects.create(
-                first_name=first_name,
-                last_name = last_name,
-                age = age,
-                agent = agent
-            )
-            return redirect("/leads")
-    context={
-        "form":form
-    }
-    return render(request,"leads/lead_create.html",context)
-    """

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm,UsernameField
 from .models import Lead,Agent,Category,FollowUp
+from django.forms import DateInput
 
 User = get_user_model() 
 
@@ -31,7 +32,7 @@ class LeadForm(forms.Form):
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ("username",)
+        fields = ("username","email")
         field_classes = {"username": UsernameField}
 
 
@@ -72,3 +73,8 @@ class FollowUpModelForm(forms.ModelForm):
             'file',
             'next_date'
         )
+        widgets = {
+            'next_date': DateInput(attrs={'type': 'date'})
+        }
+
+        

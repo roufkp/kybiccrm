@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>User Profile</h1>
+  <p>Welcome, {{ user.username }}!</p>
+  <p>Subscription Status: {% if subscription_status %}Active{% else %}Inactive{% endif %}</p>
+  {% if subscription_status %}
+    <p>Subscription Plan: {{ subscription_plan }}</p>
+    <p>Days Left: {{ days_left }}</p>
+    <!-- Display additional information for active subscribers -->
+    <p>Access granted for active subscribers</p>
+  {% else %}
+    <!-- Display message for inactive subscribers -->
+    <p>Access denied for inactive subscribers. Please subscribe to a plan.</p>
+  {% endif %}
+{% endblock %}

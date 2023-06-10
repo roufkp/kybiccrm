@@ -25,13 +25,12 @@ class CampaignListView(LoginRequiredMixin,generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-
+        print("hihiiihi")
         #inistial query set for the entireorganisation
         if user.is_organiser:
-            queryset = Campaign.objects.filter(
-                organisation = user.userprofile,
-                agent__isnull = False
-            ) 
+            campaigns = Campaign.objects.filter(organisation=user.userprofile) 
+            queryset =campaigns
+            print(queryset)
         else: 
             queryset = Campaign.objects.filter(
                 organisation = user.agent.organisation,
@@ -287,7 +286,7 @@ class ContactView(FormView):
         message = form.cleaned_data['message']
 
         # Build the message
-        template = get_template('email/contact.txt')
+        # template = get_template('email/contact.txt')
         context = {
             'name': name,
             'email': email,

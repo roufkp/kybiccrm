@@ -4,7 +4,7 @@ from .views import (
     LeadListView,LeadDetailView,LeadCreateView,LeadUpdateView,LeadDeleteView,CategoryListView,
     # CategoryDetailView,CategoryCreateView,CategoryUpdateView,CategoryDeleteView,
     LeadCategoryUpdateView,
-    FollowUpCreateView,FollowUpUpdateView, FollowUpDeleteView,FollowUpListView,
+    FollowUpCreateView,FollowUpUpdateView, FollowUpDeleteView,FollowUpListView,DownloadLeadsView,
     # WhatsappMessagingView,
     lead_form_submissions,
     )
@@ -34,5 +34,7 @@ urlpatterns = [
     # path('categories/<int:pk>/update/' ,CategoryUpdateView.as_view(), name="category-update"),
     # path('categories/<int:pk>/delete/', CategoryDeleteView.as_view(),name="category-delete"),
     # path('categories/' , CategoryDetailView.as_view(), name="category-detail"),
+    # path('upload/', UploadFileView.as_view(), name='upload'),
+
 
 ]

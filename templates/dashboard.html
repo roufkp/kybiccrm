@@ -5,6 +5,7 @@
 
 {% block content %}
 
+
     <div class="sub-container-1 " >
         <h1 ></h1>
 
@@ -13,10 +14,9 @@
 
         <div class="total-count border border-b-indigo-100 mb-3 pl-auto md:pl-10">
             <div style="width:100%">
-                <p class="font-bold text-gray-400 ">Hi <strong class="uppercase text-gray-600">{{user.username}}</strong> , Welcome back...</p>
+                <p class="font-bold text-gray-400 pl-10 md:sm-0">Hi <strong class="uppercase text-gray-600">{{user.username}}</strong> , Welcome back...</p>
                 <img src="{% static 'images/dashboardbg.png' %}" alt="" class="w-60">
             </div>
-
             <div class="one ">
                 <div class="text">
                     <p>Total</p>
@@ -56,7 +56,7 @@
                 <div class="text">
                     <p>Total</p>
                     <h4>Converted</h4>
-                <h2>{{converted_in_past30}}</h2>
+                <h2>{{total_converted}}</h2>
                 <p>
                     <a href="{% url 'leads:category-list' %}" class="flex flex-row items-center flex-wrap">
                         View More <i class="bx bx-chevrons-right " style="margin-bottom:-2px"></i>

@@ -1,0 +1,21 @@
+{% comment %} {% extends 'base.html' %}
+
+{% block content %} {% endcomment %}
+ <!-- notifications.html -->
+  <h1>Notifications</h1>
+  {% comment %} <ul>
+    {% for notification in notifications %}
+      <li>
+        <strong>{{ notification.message }}</strong> - {{ notification.timestamp }}
+        {% if not notification.is_read %}
+          <a href="{% url 'mark_as_read' notification.id %}">Mark as Read</a>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>No notifications</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'clear_notifications' %}">Clear Notifications</a> {% endcomment %}
+
+
+{% comment %} {% endblock %} {% endcomment %}

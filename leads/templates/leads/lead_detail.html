@@ -32,7 +32,12 @@
                     <img src="{% static 'images/user1.jpg' %}" alt="" class="w-16 h-16  rounded-full">
                 </div>
                 <div class="text-main flex flex-col items-start">
-                  <h3 class="text-3xl font-bold">{{lead.first_name}} </h3>
+                  <h3 class="text-3xl font-bold">{{lead.first_name}}
+                
+                  {% if lead.last_name %}
+                    {{lead.last_name}}             
+                  {% endif %}
+                     </h3>
                   <p>City: {{lead.city}}</p>
                   <div class="flex flex-row flex-wrap gap-2"><p>Status:</p><p class="rounded-2xl bg-green-100 shadow px-3 text-center " style="min-width:50px">{{lead.category}}</p></div>
                   {% comment %} <p>Staff: {{lead.campaign.agent}}</p>       {% endcomment %}
@@ -190,6 +195,7 @@
                             </dd>                            
                         </div>
                         <p style="font-size: 12px;">Updated on: {{followup.date_added}}</p>
+                        <p style="font-size: 12px;">Updated by: {{followup.created_by}}</p>
                         {% if followup.file %}
                             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                                 <dt class="text-sm font-medium text-gray-500">

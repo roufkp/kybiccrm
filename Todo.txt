@@ -1,7 +1,9 @@
 user:developer.addox@gmail.com
 kybic123
 rouf
-
+cpanel
+kybic
++@NL{Z[cSFJU
 pabbly api : pc_d4f220ef7a12750693c2634d5194f8ad
 
 mysql user:root

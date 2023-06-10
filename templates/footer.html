@@ -115,36 +115,36 @@
         class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4"
       >
         <div>
-          <p class="font-medium text-gray-900">Links</p>
+          <p class="font-medium text-gray-900">Quick Links</p>
 
           <nav aria-label="Footer Navigation - Services" class="mt-6">
             <ul class="space-y-4 text-sm">
               <li>
-                <a href="#" class="text-gray-700 transition hover:opacity-75">
+                <a href="{% url 'aboutus-page' %}" class="text-gray-700 transition hover:opacity-75">
                   About us
                 </a>
               </li>
 
               <li>
-                <a href="#" class="text-gray-700 transition hover:opacity-75">
+                <a href="{% url 'services-page' %}" class="text-gray-700 transition hover:opacity-75">
                   Services
                 </a>
               </li>
 
-              <li>
+              {% comment %} <li>
                 <a href="#" class="text-gray-700 transition hover:opacity-75">
                   Pricing
                 </a>
-              </li>
+              </li> {% endcomment %}
 
               <li>
-                <a href="#" class="text-gray-700 transition hover:opacity-75">
+                <a href="contactus-page" class="text-gray-700 transition hover:opacity-75">
                   Contact Us
                 </a>
               </li>
 
               <li>
-                <a href="#" class="text-gray-700 transition hover:opacity-75">
+                <a href="https://wa.me/919061713244" class="text-gray-700 transition hover:opacity-75">
                   Career
                 </a>
               </li>
@@ -153,18 +153,18 @@
         </div>
 
         <div>
-          <p class="font-medium text-gray-900">Quick Links</p>
+          <p class="font-medium text-gray-900">For Users</p>
 
           <nav aria-label="Footer Navigation - Company" class="mt-6">
             <ul class="space-y-4 text-sm">
               <li>
-                <a href="#" class="text-gray-700 transition hover:opacity-75">
+                <a href="{% url 'login' %}" class="text-gray-700 transition hover:opacity-75">
                   Login
                 </a>
               </li>
 
               <li>
-                <a href="#" class="text-gray-700 transition hover:opacity-75">
+                <a href="{% url 'signup' %}" class="text-gray-700 transition hover:opacity-75">
                   Register
                 </a>
               </li>
@@ -178,7 +178,7 @@
           <nav aria-label="Footer Navigation - Company" class="mt-6">
             <ul class="space-y-4 text-sm">
               <li>
-                <a href="#" class="text-gray-700 transition hover:opacity-75">
+                <a href="tel:+919061713244" class="text-gray-700 transition hover:opacity-75">
                   Contact
                 </a>
               </li>
@@ -190,7 +190,7 @@
               </li>
 
               <li>
-                <a href="#" class="text-gray-700 transition hover:opacity-75">
+                <a href="https://wa.me/919061713244" class="text-gray-700 transition hover:opacity-75">
                   Chat with Us
                 </a>
               </li>

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Subscription Plans</h1>
+  <ul>
+    {% for plan in plans %}
+      <li>{{ plan.name }} - {{ plan.price }}</li>
+      <a href="{% url 'membership:subscribe_create' plan_id=plan.id %}">Subscribe Now</a>
+    {% endfor %}
+  </ul>
+  {% comment %} <a href="{% url 'membership:subscribe_plan' plan_id=plan.id %}">Subscribe Now</a> {% endcomment %}
+
+{% endblock %}
