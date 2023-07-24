@@ -10,7 +10,7 @@ from django.views import generic
 from .models import Lead,Agent,Category
 from .forms import LeadModelForm,LeadForm,CustomUserCreationForm,AssignAgentForm,LeadCategoryUpdateForm,CategoryModelForm,FollowUpModelForm
 from agents.mixins import OrganiserAndLoginRequiredMixin
-from facebook import GraphAPI
+# from facebook import GraphAPI
 from .models import LeadFormSubmission,FollowUp
 from itertools import groupby
 from campaign.views import Campaign
@@ -23,7 +23,7 @@ from django.db.models import Count
 from .models import Lead, Category, FollowUp
 from datetime import date
 from django.views import View
-from twilio.rest import Client
+# from twilio.rest import Client
 from django.core.mail import EmailMessage
 from campaign.forms import ContactForm
 from django import forms

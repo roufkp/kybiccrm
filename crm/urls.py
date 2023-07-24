@@ -22,7 +22,7 @@ from leads.views import (
     # CreateNotificationView, MarkAsReadView, ClearNotificationsView,create_lead_notification
  )
 from campaign.views import ContactView
-from fb_app.views import fb_callback
+from fb_app.views import fb_callback,fb_test
 # from whatsapp.views import whatsapp_callback
 
 
@@ -33,6 +33,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',landing_page , name="landing-page"),
     path('fb_callback/',fb_callback , name="fb_callback"),
+    path('fb_login/',fb_test , name="fb_login"),
     # path('whatsapp_callback/',whatsapp_callback , name="whatsapp_callback")
     # path('pricing/',pricing_page , name="pricing-page"),
     path('services/',services_page , name="services-page"),

@@ -43,3 +43,8 @@ def fb_callback(request):
     else:
         # Return a 405 Method Not Allowed error for any other HTTP method
         return JsonResponse({'status': 'error', 'message': 'Method Not Allowed'}, status=405)
+
+
+def fb_test(request):
+
+    return render(request, 'fb_login.html')
