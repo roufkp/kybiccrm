@@ -318,11 +318,11 @@ class LeadListView(LoginRequiredMixin, generic.ListView):
         user = self.request.user
         
         # If the user is an admin, show the unassigned leads
-        if user.is_organiser:
-            queryset = Lead.objects.filter(campaign__organisation=user, agent=None)
-            context.update({
-                "unassigned_leads":queryset
-            })
+        # if user.is_organiser:
+        #     queryset = Lead.objects.filter(campaign__organisation=user, agent=None)
+        #     context.update({
+        #         "unassigned_leads":queryset
+        #     })
             
         return context
    

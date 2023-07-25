@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\ROUF\Desktop\kybiccrm\myenv"
+VIRTUAL_ENV="C:\Users\devel\Desktop\kybiccrm\myenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
