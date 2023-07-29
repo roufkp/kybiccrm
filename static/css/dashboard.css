@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
 
 body{
-    background: rgba(255, 255, 255);
+    background:#fffffa;
     color: #161515;
     font-family: 'DM Sans', sans-serif !important;   
 }
@@ -26,6 +26,7 @@ section{
     margin: 0;
     padding: 0;
 }
+
 .company-logo{
     padding: 20px 0 10px 0;
     width: 100%;
@@ -50,7 +51,7 @@ section{
 .sub-container{
     height: calc(100vh - 52px );
     width: 100vw;
-    align-items: flex-start;
+    /* align-items: flex-start; */
     align-content: flex-start;
     justify-content: flex-start;
     margin: 0 0 auto 0;
@@ -84,7 +85,7 @@ section{
     margin: auto;
     flex-wrap: wrap;
     align-items: center;
-    padding: 50px 0;
+    /* padding: 50px 0; */
     /* border-bottom: 1px solid rgba(0, 0, 0, 0.1593); */
 }
 .total-count-2{
@@ -95,7 +96,7 @@ section{
     margin: auto;
     flex-wrap: wrap;
     align-items: center;
-    padding: 50px 0;
+    /* padding: 50px 0; */
     /* border-bottom: 1px solid rgba(0, 0, 0, 0.1593); */
 }
 .text{
@@ -234,6 +235,7 @@ section{
     /* border-right: 2px solid rgba(255, 255, 255, .09); */
     transition: .4s ease-in-out;
     font-size: 13px;
+    color: #F5F5F5;
 }
 .sidebar.open {
     width: 300px;
@@ -256,7 +258,7 @@ section{
     width: 56px;
 }
 .sidebar .logo h3 {
-    color: #080000;
+    color: #ffffff;
     margin-top: 12px;
     font-variant: small-caps;
     pointer-events: none;
@@ -276,6 +278,7 @@ section{
     margin: 20px auto;
     pointer-events: none;
     opacity: 0;
+    color: #F5F5F5;
 }
 .sidebar.open .nav-title {
     opacity: 1;
@@ -296,6 +299,7 @@ section{
     height: fit-content;   
     margin: 8px 0;
     color: rgb(4, 41, 41);
+    color: #ffffff;
     transition: .1s all linear;
     text-shadow: 1px 1px 1px 1px black;
 }
@@ -316,7 +320,7 @@ section{
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    color: #F5F5F5;
+    color: #ffffff;
 }
 .sidebar nav .nav-item span {
     font-size: 14px;

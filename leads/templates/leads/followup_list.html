@@ -31,16 +31,44 @@
   }
 </style>
 
-<!-- Content -->
-
 <div class="sub-container "> 
-    <div class="bg-white py-5 sm:py-8">
-        <div class="container w-full md:w-4/5 xl:w-3/5  mx-auto px-2">
+<!-- Content -->
+ <div class="show md:ml-8">
+      <button class="active" onclick="showSection(0)">
+        <img width="24" height="24" src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/external-recruitment-agency-rejected-candidate-due-to-incompatibility-jobs-bold-tal-revivo.png" alt="external-recruitment-agency-rejected-candidate-due-to-incompatibility-jobs-bold-tal-revivo"/>
+        Follow-up Due
+      
+      </button>
+      <button onclick="showSection(1)">
+        <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/today.png" alt="today"/>
+        Today
+      
+      </button>
+      <button onclick="showSection(2)">
+        <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/event-accepted-tentatively.png" alt="event-accepted-tentatively"/>
+        Upcoming
+      
+      </button>
+      <button onclick="showSection(3)">
+        <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/tear-off-calendar.png" alt="tear-off-calendar"/>
+        Someday
+      
+      </button>
+      <!-- <button onclick="showSection(4)">
+        <img width="24" height="24" src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/external-recruitment-agency-rejected-candidate-due-to-incompatibility-jobs-bold-tal-revivo.png" alt="external-recruitment-agency-rejected-candidate-due-to-incompatibility-jobs-bold-tal-revivo"/>
+        No follow up
+      </button> -->
+    </div>
+    <div class="fav">
+    <div class="bg-white ">
+        <div class="container w-full   mx-auto px-2">
             <!--Title-->
             {% for status, leads in leads_by_status.items %}
-            <h1 class="flex items-center font-sans font-bold break-normal text-black-500 mt-8 px-3 pt-3 text-xl md:text-xl">
-                {{ status }}  
-            </h1>
+           
+            <section>
+                <h1 class="flex items-center font-sans font-bold break-normal text-black-500 mt-8 px-3 pt-3 text-xl md:text-xl">
+                    {{ status }}  
+                </h1>
               <!--Card-->
               <div id='recipients' class="p-3 mt-3 lg:mt-0 rounded  bg-white">
                 <table id="" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
@@ -48,14 +76,15 @@
                     <tr>
                         <th>Lead Name</th>
                         <!-- <th>Campaign Name</th> -->
+                        <th>Date Added</th>
                         <th>View More</th>
                     </tr>
                   </thead>
                  <tbody>
                     {% for lead in leads %}
                         <tr>
-                            <td>{{ lead.first_name }} {{ lead.last_name }}</td>
-                            <!-- <td>{{ lead.campaign.name }}</td> -->
+                            <td>{{ lead.first_name }} {{ lead.last_name }} </td>
+                            <td>{{ lead.date_added }}</td>
                             <td>                                
                                 <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
                                     Details
@@ -70,21 +99,71 @@
                  </tbody>
                 </table>
               </div><!--/Card-->
+            </section>
               {% endfor %}
         </div>
     </div>                 
+</div>
 </div>
 <!-- End of content -->
 
 
 </div>
-
+<style>
+    section{
+        display: none;
+    }
+    .sub-container  table{
+        
+    }
+    section {
+			padding: 20px;
+      box-shadow:inset -5px 0px 11px 1px rgba(0, 0, 0, 0.025195);
+      background: rgb(247, 250, 249);
+		}
+</style>
 
 <!-- JS File -->
-<script type="text/javascript" src={% static 'js/main.js' %}>
+<script type="text/javascript" src={% static 'js/main.js' %}></script>
+<script>
+    const buttons = document.querySelectorAll('button');
+    const sections = document.querySelectorAll('section');
+buttons[0].classList.add('active');
 
+    sections[0].style.display = 'block';
+
+    const showSection = (index) => {
+        buttons.forEach(button => button.classList.remove('active'));
+        buttons[index].classList.add('active');
+        sections.forEach(section => section.style.display = 'none');
+        sections[index].style.display = 'block';
+    };
 </script>
+<!--Datatables -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> 
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script> 
+<script>
+    $(document).ready(function() {
 
+    // var table = $('#exampletot').DataTable({
+            // 	responsive: true
+            // })
+          var table = $('#example1').DataTable({
+                responsive: true
+            })
+    var table = $('#example2').DataTable({
+                responsive: true
+            })
+    var table = $('#example3').DataTable({
+                responsive: true
+            })
+    var table = $('#example4').DataTable({
+                responsive: true
+            })
+            
+    });    
+</script> 
 
 
   

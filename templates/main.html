@@ -44,14 +44,56 @@
         }
 
         .bg-color-3 {
-        background-color: #FFABE1; /* Blue */
-        background: linear-gradient(45deg, #FFABE1, #FFABE1);
+        background-color: #ff9696; /* Blue */
+        background: linear-gradient(45deg, #ff9696,#ff9696);
         }
 
         .bg-color-4 {
-        background-color: #FFE6F7; /* orrange */
-        background: linear-gradient(45deg, #FFE6F7, #FFE6F7);
+        background-color: #A0C49D; /* orrange */
+        background: linear-gradient(45deg, #A0C49D, #A0C49D);
         }
+
+
+          /* Style The Dropdown Button */
+                             /* .dropbtn {
+                              background-color: #4CAF50;
+                              color: white;
+                              padding: 16px;
+                              font-size: 16px;
+                              border: none;
+                              cursor: pointer;
+                            } */
+                            
+                            /* The container <div> - needed to position the dropdown content */
+                            .dropdown {
+                              position: relative;
+                              display: inline-block;
+                              width: 100%;
+                            }
+                            
+                            /* Dropdown Content (Hidden by Default) */
+                            .dropdown-content {
+                              display: none;
+                              position: absolute;
+                              background-color: #212424f5;
+                              min-width: 160px;
+                              z-index: 1;
+                            }
+                            
+                            /* Links inside the dropdown */
+                            .dropdown-content a {
+                              color: black;
+                              padding: 4px 16px;
+                              text-decoration: none;
+                              display: block;
+                            }
+                            
+                            
+                            /* Show the dropdown menu on hover */
+                            .dropdown:hover .dropdown-content {
+                              display: block;
+                            }
+                            
     </style>
 </head>
 <body>
@@ -83,7 +125,7 @@
     </div>
     <div class="main">   
     
-        <div class="sidebar" style="background: linear-gradient(45deg, #0f8d93, #13b47e);">         
+        <div class="sidebar" style="background: linear-gradient(45deg, #1E212D, #1E212D);">         
         
             <div class="logo">
                 <img class="user-icon" alt="hero" src="{% static 'images/user1.jpg' %}">
@@ -111,39 +153,74 @@
                         <span>Dashboard</span>
                     </li>
                     </a>
-                                        
-                    {% if request.user.is_organiser %}
+                    <a href="{% url 'leads:followup-list' %}">
+                        <li class="nav-item  ">
+                            <i class="bx bxs-calendar-edit"></i>
+                            <span>Follow up</span>
+                        </li>
+                        </a>
+                        <a href="{% url 'campaign:campaign-list'  %}" class="text-gray-500 hover:text-blue-500">
+                            <li class="nav-item">
+                                <i class="bx bxs-buildings"></i>
+                                <span>Campaigns</span>
+                            </li>
+                        </a>
+                    </ul>                         
+                   
                         <a href="{% url 'leads:category-list'  %}" class="text-gray-500 hover:text-blue-500">
                         <li class="nav-item">
                             <i class="bx bxs-category"></i>
-                            <span>Categories</span>
+                            <span>Overview</span>
                         </li>
                         </a>
-                        <a href="{% url 'agents:agent-list'%}">
+                       
+                        
+                            <div class="dropdown"> 
+                                <li class="nav-item">
+                                <i class="bx bxs-user-badge"></i>
+                                <span>Profile </span>
+                               </li> 
+                              <div class="dropdown-content">
+                               {% if request.user.is_organiser %}
+                                    <a href="{% url 'agents:agent-list'%}">
+                                        <li class="nav-item">
+                                            <i class="bx bxs-user-badge"></i>
+                                            <span>Staff</span>
+                                        </li>
+                                    <a href="">
+                                        <li class="nav-item">
+                                            <i class="bx bxs-brightness"></i>
+                                            <span>settings</span>
+                                        </li>                                    
+                                    </a>
+                                     {% else %}
+                    {% endif %}
+                                      
+                                    <a href="{% url 'logout' %}" ><li class="nav-item">
+                                        <i class="bx bxs-log-out"></i>
+                                        <span>Logout</span>
+                                    </li>
+                                </a>
+                              </div>
+                            </div>
+                        <!-- <a href="{% url 'agents:agent-list'%}">
                         <li class="nav-item">
                             <i class="bx bxs-user-badge"></i>
                             <span>Staff</span>
                         </li>
-                        </a>                                   
-                    {% else %}
-                    {% endif %}
-                    <a href="{% url 'campaign:campaign-list'  %}" class="text-gray-500 hover:text-blue-500">
-                        <li class="nav-item">
-                            <i class="bx bxs-buildings"></i>
-                            <span>Campaigns</span>
-                        </li>
-                    </a>
+                        </a>                                    -->
+                   
                     {% comment %} <a href="{% url 'create_notification'  %}" class="text-gray-500 hover:text-blue-500">
                         <li class="nav-item">
                             <i class="bx bxs-buildings"></i>
                             <span>Notifications</span>
                         </li>
-                    </a>                                    {% endcomment %}
-                    <a href="{% url 'logout' %}" ><li class="nav-item">
+                    </a> {% endcomment %}
+                    <!-- <a href="{% url 'logout' %}" ><li class="nav-item">
                         <i class="bx bxs-log-out"></i>
                         <span>Logout</span>
-                    </li></a>
-                </ul>        
+                    </li></a> -->
+                    
                 <hr>        
                 <div class="nav-title">
                     Supports
@@ -155,19 +232,18 @@
                             <span>Get Help</span>
                         </li>
                     </a>
-                    
                     <a href="https://wa.me/919061713244">
                         <li class="nav-item">
                             <i class="bx bxs-message-dots"></i>
                             <span>Send Feedback</span>
                         </li>
                     </a>
-                    <a href="{% url 'fb_login'%}">
+                    {% comment %} <a href="{% url 'fb_login'%}">
                         <li class="nav-item">
                             <i class="bx bxs-message-dots"></i>
                             <span>Facebook Login</span>
                         </li>
-                    </a>
+                    </a> {% endcomment %}
                     
                 </ul>          
             </nav>

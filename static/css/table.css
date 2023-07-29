@@ -221,7 +221,7 @@ overflow: scroll;
 		}
 		.show button.active {
 			background-color: #dfffac;
-			color: #dc0646;
+			color: #080808;
 			border: none;
 			border-radius: 10px;
 			cursor: pointer;

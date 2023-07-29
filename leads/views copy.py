@@ -95,7 +95,26 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
             campaigns = Campaign.objects.filter(organisation=user.userprofile)          
             # How many leads we have in total
             total_campaign_count = Campaign.objects.filter(organisation=user.userprofile).count()
-            
+            total_lead_count=Lead.objects.filter(campaign__organisation=user.userprofile).count()
+            # How many new leads in the last 30 days      
+            total_in_past30 = Campaign.objects.filter(
+                organisation=user.userprofile,
+                start_date__gte=thirty_days_ago
+            ).count()
+            # How many converted leads in the last 30 days        
+            converted_in_past30 = Lead.objects.filter(
+                category=converted_category,
+                campaign__organisation=user.userprofile,
+                converted_date__gte=thirty_days_ago
+            ).count()   
+            total_converted = Lead.objects.filter(
+                campaign__organisation=user.userprofile,
+                category=converted_category,
+            ).count()    
+            total_followup_leads = Lead.objects.filter(
+                campaign__organisation=user.userprofile,
+                category=followup_category,
+            ).count()
 # Total leads converted in a date range       
             if start_date_str and end_date_str:
                 start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
@@ -129,13 +148,42 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
                 Q(followup_date__range=[start_date, end_date]),
                 Q(campaign__organisation=user.userprofile)
             ).count()            
-         
-           
+            # Chart data for leads converted in date range
+            date_range = (end_date - start_date).days
+            for i in range(date_range+1):
+                day = start_date + timedelta(days=i)
+                count = Lead.objects.filter(
+                    Q(category=converted_category),
+                    Q(converted_date__year=day.year),
+                    Q(converted_date__month=day.month),
+                    Q(converted_date__day=day.day),
+                    Q(campaign__organisation=user.userprofile)
+                ).count()
+                converted_data.append(count)
         else:
             campaigns = Campaign.objects.filter(organisation = user.agent.organisation).filter(agent__user = user)   
             # How many leads we have in total
             total_campaign_count = Campaign.objects.filter(organisation = user.agent.organisation).filter(agent__user = user).count()
-            
+            total_lead_count=Lead.objects.filter(campaign__organisation = user.agent.organisation).filter(campaign__agent__user = user).count()
+            # How many new leads in the last 30 days      
+            total_in_past30 = Campaign.objects.filter(
+                organisation = user.agent.organisation,
+                start_date__gte=thirty_days_ago
+            ).filter(agent__user = user).count()
+            # How many converted leads in the last 30 days        
+            converted_in_past30 = Lead.objects.filter(
+                category=converted_category,
+                campaign__organisation = user.agent.organisation,
+                converted_date__gte=thirty_days_ago
+            ).filter(campaign__agent__user = user).count()        
+            total_converted = Lead.objects.filter(
+                campaign__organisation = user.agent.organisation,
+                category=converted_category,
+            ).filter(campaign__agent__user = user).count()    
+            total_followup_leads = Lead.objects.filter(
+                campaign__organisation = user.agent.organisation,
+                category=followup_category,
+            ).filter(campaign__agent__user = user).count()
 # Total leads converted in a date range       
             if start_date_str and end_date_str:              
                 start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
@@ -165,7 +213,18 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
                 Q(followup_date__range=[start_date, end_date]),
                 Q(campaign__organisation = user.agent.organisation)
             ).filter(campaign__agent__user = user).count()               
-            
+            # Chart data for leads converted in date range
+            date_range = (end_date - start_date).days
+            for i in range(date_range+1):
+                day = start_date + timedelta(days=i)
+                count = Lead.objects.filter(
+                    Q(category=converted_category),
+                    Q(converted_date__year=day.year),
+                    Q(converted_date__month=day.month),
+                    Q(converted_date__day=day.day),
+                    Q(campaign__organisation = user.agent.organisation)
+                ).count()
+                converted_data.append(count)
         chart_data = {
             "labels": ["Converted", "Rejected", "Follow-up", "New"],
             "datasets": [{
@@ -196,11 +255,17 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
             "followup_in_date_range": followup_in_date_range,
             "total_lead_count_date": total_lead_count_date,
             "new_lead_count_date": new_lead_count_date,
+            # "total_lead_count": total_lead_count,
             "total_campaign_count": total_campaign_count,
+            # "total_followup_leads":total_followup_leads,
+            # "total_in_past30": total_in_past30,
+            # "converted_in_past30": converted_in_past30,
+            # "total_converted":total_converted,
             "chart_data": chart_data,
             "start_date_str": start_date_str,
             "end_date_str": end_date_str,
             "leads_converted_in_date_range": leads_converted_in_date_range,
+            # 'total_followup_leads_in_date_range':total_followup_leads_in_date_range
         })
         return context
 

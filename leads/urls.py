@@ -8,7 +8,16 @@ from .views import (
     # WhatsappMessagingView,
     lead_form_submissions,
     )
+from django.conf.urls import handler404,handler400,handler403,handler500
+from leads.views import error_404,error_400,error_403,error_500,error_401,error_405
 # from campaign.views import AssignAgentView
+
+handler404 = error_404
+handler400 = error_400
+handler403 = error_403
+handler401 = error_401
+handler405 = error_405
+handler500 = error_500
 
 
 app_name = "leads"

@@ -102,8 +102,18 @@ class AgentUpdateView(OrganiserAndLoginRequiredMixin, generic.UpdateView):
 
     def get_queryset(self):
         organisation = self.request.user.userprofile
-        return Agent.objects.filter(organisation = organisation)   
-        
+        return Agent.objects.filter(organisation = organisation)
+
+    def get_object(self, queryset=None):
+        # Get the specific Agent object you want to update
+        obj = super().get_object(queryset=queryset)
+        return obj
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs['user'] = self.request.user
+    #     return kwargs   
+
+
 
 class AgentDeleteView(OrganiserAndLoginRequiredMixin, generic.DeleteView):
     template_name = "agents/agent_delete.html"

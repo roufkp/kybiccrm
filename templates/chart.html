@@ -66,48 +66,11 @@
       }
   </style>
 
-<div class="flex flex-col gap-10 flex-wrap items-center content-center  shadow-md hover:shadow-xl" style="width:100%;max-width: 100vw;"> 
+<div class="flex flex-col gap-10 flex-wrap items-center content-end  shadow-md hover:shadow-xl" style="width:100%;max-width: 100vw;"> 
  
-<div class=" px-5 py-5 rounded-xl   mx-auto mb-0">
-  <h2 class="text-lg font-bold text-gray-500 mt-2 ">Select Date Range</h2> <hr>
-  <form method="get" action="." class="font-medium text-s flex flex-row flex-wrap items-start mt-5  ">
-    <div class="mb-3">
-      <label for="start_date">Start Date:</label>
-      <input type="date" id="start_date" name="start_date" value="{{ start_date_str }}">
-    </div>
-    <div class="mb-3">
-      <label for="end_date">End Date:</label>
-      <input type="date" id="end_date" name="end_date" value="{{ end_date_str }}">
-    </div>  
-    <button type="submit" class="button  ">Filter</button>
-  </form>
-</div>
-<div class=" px-5 py-5 rounded  mx-auto date-result">
-  <h1 class="text-lg font-bold text-gray-500 ">Your Results</h1><hr style="width:100%">
+  <canvas id="myChart" class="mt-10 px-5 py-5 rounded-xl  " style="max-width: 900px;width: 90%; margin-right: 50%;background=red"></canvas>
   
-  <div>
-    <p >Total <br> Leads</p>
-    <span >{{total_lead_count_date}}</span>
-  </div>
-  <div>
-    <p >New <br> Leads</p>
-    <span >{{new_lead_count_date}}</span>
-  </div>
-  <div>
-    <p >Follow up <br> Leads</p>
-    <span >{{followup_in_date_range}}</span>
-  </div>
-  <div>
-    <p >Converted <br> Leads</p>
-    <span >{{leads_converted_in_date_range}}</span>
-  </div>
-  <div>
-    <p >Rejected <br> Leads</p>
-    <span >{{rejected_in_date_range}}</span>
-  </div>
-</div>
 
-  <canvas id="myChart" class="mt-10 px-5 py-5 rounded-xl  " style="max-width: 900px;width: 90%;"></canvas>
 
 
 
