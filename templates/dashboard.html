@@ -13,7 +13,14 @@
         <!-- # Total Count Session -->
 
         <div class="total-count pt-10   mb-3 pl-auto md:pl-10">
-            <p class="font-bold text-gray-400 pl-10 md:sm-0" id="dateRangeText" style="width: 100%;"> <strong class="uppercase text-gray-600" >From {{start_date_str}}- To {{end_date_str}}</strong> </p>
+            <p class="font-bold text-gray-400 pl-10 md:sm-0" id="dateRangeText" style="width: 100%;"> <strong class=" text-gray-600" >
+              {% if start_date_str and end_date_str  %}
+
+              From {{start_date_str}}  To  {{end_date_str}}
+              {% else %}
+              Last 30 Days
+              {% endif %}
+            </strong> </p>
 
             <div class="flex justify-between rounded-xl shadow-md p-2" style="    width: auto;position: absolute;background-color: #c6ddeb;right: 10px;top: 50px;">
                 <div class="flex justify-between flex-col" style="width: auto; background-color: transparent;">
@@ -43,7 +50,7 @@
                   
                  <!-- <img src="{% static 'images/dashboardbg.png' %}" alt="" class="w-60" > -->
             </div>
-            <div class="one ">
+            <!-- <div class="one ">
                 <div class="text">
                     <p>Total</p>
                     <h4>Campaigns</h4>
@@ -54,7 +61,7 @@
                     </a>
                 </p>
                 </div>
-            </div>
+            </div> -->
             <div class="one">
                 <div class="text">
                     <h4>Total Leads</h4>
@@ -91,14 +98,54 @@
                 </div>
                 
             </div>
+            <div class="one">
+              <div class="text">
+                  <p>Total</p>
+                  <h4>New Leads</h4>
+              <h2>{{new_lead_count_date}}</h2>
+              <p>
+                  <a href="{% url 'leads:category-list' %}" class="flex flex-row items-center flex-wrap">
+                      View More <i class="bx bx-chevrons-right " style="margin-bottom:-2px"></i>
+                  </a>
+              </p>
+              </div>
+              
+          </div>
+          <div class="one">
+            <div class="text">
+                <p>Total</p>
+                <h4>Rejected</h4>
+            <h2>{{rejected_in_date_range}}</h2>
+            <p>
+                <a href="{% url 'leads:category-list' %}" class="flex flex-row items-center flex-wrap">
+                    View More <i class="bx bx-chevrons-right " style="margin-bottom:-2px"></i>
+                </a>
+            </p>
+            </div>
+            
+        </div>
+        <div class="one">
+          <div class="text">
+              <p>Total</p>
+              <h4>Amount</h4>
+          <h2>2000</h2>
+          <p>
+              <a href="{% url 'leads:category-list' %}" class="flex flex-row items-center flex-wrap">
+                  View More <i class="bx bx-chevrons-right " style="margin-bottom:-2px"></i>
+              </a>
+          </p>
+          </div>
+          
+      </div>
             
             
         </div>
         <!-- <img src="{% static 'images/dashboardbg.png' %}" alt="" class="w-60"> -->
-        <div class="total-leads flex flex-row items-baseline pl-auto md:pl-10" style="height:auto;overflow:scroll">
+        <div class="total-leads flex flex-row items-baseline pl-auto md:pl-10" style="height:auto;overflow:scroll;">
             <!-- # chart -->
             {% include "chart.html" %}
-            <div class=" px-5 py-5 rounded  mx-auto date-result">
+          </div>
+            <!-- <div class=" px5  rounded  mx-auto date-result">
                 <h1 class="text-lg font-bold text-gray-500 ">Your Results</h1><hr style="width:100%">
                 
                 <div>
@@ -122,7 +169,7 @@
                   <span >{{rejected_in_date_range}}</span>
                 </div>
               </div> 
-        </div>
+         -->
  
 
         <!-- # New Lead Session -->

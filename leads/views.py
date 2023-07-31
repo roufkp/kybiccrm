@@ -85,12 +85,10 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        thirty_days_ago = timezone.now() - timedelta(days=30)
         converted_category = Category.objects.get(name="Converted")
         followup_category = Category.objects.get(name="Follow Up")
         start_date_str = self.request.GET.get('start_date')
         end_date_str = self.request.GET.get('end_date')        
-        converted_data = []
         if user.is_organiser:
             campaigns = Campaign.objects.filter(organisation=user.userprofile)          
             # How many leads we have in total
@@ -189,9 +187,11 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
                 ],
                 "borderWidth": 1
             }]
-        }        
+        } 
+        table_id="example1"       
         context.update({
             "campaigns":campaigns,
+            "table_id":table_id,
             "rejected_in_date_range": rejected_in_date_range,
             "followup_in_date_range": followup_in_date_range,
             "total_lead_count_date": total_lead_count_date,
@@ -223,13 +223,6 @@ class LeadListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(LeadListView, self).get_context_data(**kwargs)
         user = self.request.user
-        
-        # If the user is an admin, show the unassigned leads
-        # if user.is_organiser:
-        #     queryset = Lead.objects.filter(campaign__organisation=user, agent=None)
-        #     context.update({
-        #         "unassigned_leads":queryset
-        #     })
             
         return context
    
@@ -377,60 +370,6 @@ def lead_delete(request,pk):
     return redirect("/leads")
 
 
-# category list display using for loop method 
-# class CategoryListView(LoginRequiredMixin, generic.ListView):
-#     template_name = "leads/category_list.html"
-#     context_object_name = "category_list"
-
-#     def get_queryset(self):
-#         user = self.request.user
-
-#         if user.is_organiser:
-#             # Get all the campaigns created by the user's organisation
-#             campaigns = Campaign.objects.filter(organisation=user.userprofile)
-
-#             # Get all the leads associated with the user's organisation's campaigns
-#             queryset = Lead.objects.filter(campaign__in=campaigns)
-#         else:
-#             # Get all the campaigns assigned to the user
-#             campaigns = Campaign.objects.filter(Q(agent=user.agent) | Q(organisation=user.agent.organisation))
-
-#             # Get all the leads associated with the campaigns assigned to the user
-#             queryset = Lead.objects.filter(campaign__in=campaigns).filter(campaign__agent__user = user)
-
-#         return queryset
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         user = self.request.user
-#         if user.is_organiser:
-#             # Get all the campaigns created by the user's organisation
-#             campaigns = Campaign.objects.filter(organisation=user.userprofile)
-#         else:
-#             # Get all the campaigns assigned to the user
-#             campaigns = Campaign.objects.filter(Q(agent=user.agent) | Q(organisation=user.agent.organisation)).filter(agent__user = user)
-#         # Get the counts of leads associated with each category for the user's campaigns
-#         lead_counts = (
-#             Lead.objects.filter(campaign__in=campaigns)
-#             .values("category__name")
-#             .annotate(count=Count("category__name"))
-#         )
-#         # Get all the leads associated with the user's campaigns
-#         leads = Lead.objects.filter(campaign__in=campaigns)
-#         categories = Category.objects.all()
-#         category_leads = {}
-#         for category in categories:
-#             category_leads[category.name] = leads.filter(category=category)
-
-#         context.update(
-#             {
-#                 "categories": categories,
-#                 "category_leads": category_leads,
-#                 "lead_counts": lead_counts,
-#             }
-#         )
-
-#         return context
 
 class CategoryListView(LoginRequiredMixin, generic.ListView):
     template_name = "leads/category_list.html"
@@ -486,15 +425,7 @@ class CategoryListView(LoginRequiredMixin, generic.ListView):
         rejected_leads = {}
 
     # Iterate through each lead and add it to the appropriate dictionary based on its category
-        # for lead in leads:
-        #     if lead.category.name == "Follow Up":
-        #         follow_up_leads[lead.id] = lead
-        #     elif lead.category.name == "New":
-        #         new_leads[lead.id] = lead
-        #     elif lead.category.name == "Converted":
-        #         converted_leads[lead.id] = lead
-        #     elif lead.category.name == "Rejected":
-        #         rejected_leads[lead.id] = lead
+    
         for lead in leads:
             if lead.category is not None:
                 if lead.category.name == "Follow Up":
@@ -523,33 +454,8 @@ class CategoryListView(LoginRequiredMixin, generic.ListView):
 
 
 
-# class LeadCategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
-#     template_name = "leads/lead_category_update.html"
-#     form_class = LeadCategoryUpdateForm
 
-#     def get_queryset(self):
-#         user = self.request.user
-#         campaign_id = self.kwargs['campaign_id']
-#         # filter leads for the current campaign
-#         queryset = Lead.objects.filter(campaign__id=campaign_id)
-#         return queryset
 
-#     def get_success_url(self):
-#         return reverse("leads:lead-detail", kwargs={"campaign_id": self.object.campaign.id, "pk": self.object.id})
-
-#     def form_valid(self, form):
-#         lead_before_update = self.get_object()
-#         instance = form.save(commit=False)
-#         converted_category = Category.objects.get(name="Converted")
-#         if form.cleaned_data["category"] == converted_category:
-#             # update the date at which this lead was converted
-#             if lead_before_update.category != converted_category:
-#                 # this lead has now been converted 
-#                 instance.converted_date = dt.datetime.now()
-#         instance.save()
-#         return super(LeadCategoryUpdateView, self).form_valid(form)
-
-from django.utils import timezone
 
 class LeadCategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "leads/lead_category_update.html"
@@ -883,39 +789,6 @@ class ProcessDataView(View):
 
         return render(request, 'leads/upload_file.html', {'success': True})
 
-# class WhatsappMessagingView
-# class WhatsappMessagingView(OrganiserAndLoginRequiredMixin, View):
-
-#     def get(self, request, pk):
-#         # Handle GET requests, for example to show a confirmation page
-#         return render(request, 'leads/whatsapp_confirm.html')
-
-#     def post(self, request, pk):
-#         lead = get_object_or_404(Lead, id=pk)
-
-#         # check if lead has a WhatsApp number
-#         if not lead.whatsapp_number:
-#             return HttpResponse("Lead does not have a WhatsApp number.")
-
-#         # set up Twilio client with your credentials
-#         account_sid = 'AC7ceee1e881b956cfad4c29a4a6728439'
-#         auth_token = '03e85dbe2d59e9555d8e9b8725fc29f0'
-#         client = Client(account_sid, auth_token)
-
-#         # define the message to send
-#         message_body = 'Hello from your lead management system!'
-
-#         # use the Twilio client to send the message via WhatsApp
-#         message = client.messages.create(
-#             from_='whatsapp:+919061713244',
-#             to='whatsapp:+lead.whatsapp_number',
-#             body=message_body
-#         )
-
-#         # print the message SID for debugging purposes
-#         print(message.sid)
-
-#         return HttpResponse("WhatsApp message sent successfully.")
 
 
 def error_404(request, exception):

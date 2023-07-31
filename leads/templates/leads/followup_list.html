@@ -29,39 +29,63 @@
     color: aliceblue;
 
   }
+  /* .texth .show button:active{
+    background: brown !important;
+  } */
+
+  section{
+      display: none;
+  }
+  .sub-container  table{
+      
+  }
+  section {
+    padding: 20px;
+    box-shadow:inset -5px 0px 11px 1px rgba(0, 0, 0, 0.025195);
+    background: rgb(219, 219, 219);
+  }
 </style>
 
-<div class="sub-container "> 
+<div class="sub-container texth"> 
 <!-- Content -->
- <div class="show md:ml-8">
-      <button class="active" onclick="showSection(0)">
+ <div class="show md:ml-8" style=" margin: 10px;">
+  <div>
+      <button class="active hover:bg-blue-800" onclick="showSection(0)">
         <img width="24" height="24" src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/external-recruitment-agency-rejected-candidate-due-to-incompatibility-jobs-bold-tal-revivo.png" alt="external-recruitment-agency-rejected-candidate-due-to-incompatibility-jobs-bold-tal-revivo"/>
         Follow-up Due
       
       </button>
+    </div>
+    <div>
       <button onclick="showSection(1)">
         <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/today.png" alt="today"/>
         Today
       
       </button>
+    </div>
+    <div>
       <button onclick="showSection(2)">
         <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/event-accepted-tentatively.png" alt="event-accepted-tentatively"/>
         Upcoming
       
       </button>
+    </div>
+    <div>
       <button onclick="showSection(3)">
         <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/tear-off-calendar.png" alt="tear-off-calendar"/>
         Someday
       
       </button>
+    </div>
       <!-- <button onclick="showSection(4)">
         <img width="24" height="24" src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/external-recruitment-agency-rejected-candidate-due-to-incompatibility-jobs-bold-tal-revivo.png" alt="external-recruitment-agency-rejected-candidate-due-to-incompatibility-jobs-bold-tal-revivo"/>
         No follow up
       </button> -->
+      <p>{{table_id}}</p>
     </div>
     <div class="fav">
     <div class="bg-white ">
-        <div class="container w-full   mx-auto px-2">
+        <div class="container w-full  px-2">
             <!--Title-->
             {% for status, leads in leads_by_status.items %}
            
@@ -71,10 +95,10 @@
                 </h1>
               <!--Card-->
               <div id='recipients' class="p-3 mt-3 lg:mt-0 rounded  bg-white">
-                <table id="" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                <table  class="lead-list stripe hover table" id="" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                   <thead>
                     <tr>
-                        <th>Lead Name</th>
+                        <th>Lead Name , {{table_id}}</th>
                         <!-- <th>Campaign Name</th> -->
                         <th>Date Added</th>
                         <th>View More</th>
@@ -109,34 +133,21 @@
 
 
 </div>
-<style>
-    section{
-        display: none;
-    }
-    .sub-container  table{
-        
-    }
-    section {
-			padding: 20px;
-      box-shadow:inset -5px 0px 11px 1px rgba(0, 0, 0, 0.025195);
-      background: rgb(247, 250, 249);
-		}
-</style>
+
 
 <!-- JS File -->
 <script type="text/javascript" src={% static 'js/main.js' %}></script>
 <script>
     const buttons = document.querySelectorAll('button');
     const sections = document.querySelectorAll('section');
-buttons[0].classList.add('active');
-
+    const table = document.querySelectorAll('table');
+    buttons[0].classList.add('active');
     sections[0].style.display = 'block';
-
     const showSection = (index) => {
-        buttons.forEach(button => button.classList.remove('active'));
-        buttons[index].classList.add('active');
-        sections.forEach(section => section.style.display = 'none');
-        sections[index].style.display = 'block';
+    buttons.forEach(button => button.classList.remove('active'));
+    buttons[index].classList.add('active');
+    sections.forEach(section => section.style.display = 'none');
+    sections[index].style.display = 'block';        
     };
 </script>
 <!--Datatables -->
