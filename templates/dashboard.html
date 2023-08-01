@@ -13,7 +13,7 @@
         <!-- # Total Count Session -->
 
         <div class="total-count pt-10   mb-3 pl-auto md:pl-10">
-            <p class="font-bold text-gray-400 pl-10 md:sm-0" id="dateRangeText" style="width: 100%;"> <strong class=" text-gray-600" >
+            <p class="font-bold text-gray-400 pl-10 md:sm-0" id="dateRangeText" style="width: 100%;color: black;"> <strong class="" >
               {% if start_date_str and end_date_str  %}
 
               From {{start_date_str}}  To  {{end_date_str}}
@@ -22,15 +22,15 @@
               {% endif %}
             </strong> </p>
 
-            <div class="flex justify-between rounded-xl shadow-md p-2" style="    width: auto;position: absolute;background-color: #c6ddeb;right: 10px;top: 50px;">
+            <div class="flex justify-between rounded-xl shadow-md p-2" style=" width: auto;position: absolute;background-color: #037af4;right: 10px;top: 50px;">
                 <div class="flex justify-between flex-col" style="width: auto; background-color: transparent;">
                     
-                    <button class="text-sm font-bold text-gray-500 " id="showFormButton" style="width: auto;text-align: end;">Select Date Range</button>
+                    <button class="text-sm  text-gray-500 " id="showFormButton" style="width: auto;text-align: end; color: #ffffff;letter-spacing: .08rem;">Select Date</button>
                     <div id="formContainer" class="px-5 py-0 rounded-xl mb-0" style="display: none; background-color: transparent; flex-direction: row; align-items: center;">
                       
                      
                       <hr>
-                      <form method="get" action="." class="font-medium text-s flex flex-col flex-wrap items-start mt-5">
+                      <form method="get" action="." class="font-medium text-s flex flex-col flex-wrap items-start mt-5" style="display: flex; flex-direction: column;flex-wrap: wrap;align-items: center;margin: 10px;">
                         <div class="mb-3">
                           <label for="start_date">Start:</label>
                           <input type="date" id="start_date" name="start_date" value="{{ start_date_str }}">
@@ -64,7 +64,8 @@
             </div> -->
             <div class="one">
                 <div class="text">
-                    <h4>Total Leads</h4>
+                  <p>Total</p>
+                    <h4> Leads</h4>
                 <h2>{{total_lead_count_date}}</h2>
                 <p>
                     <a href="{% url 'leads:category-list' %}" class="flex flex-row items-center flex-wrap">
@@ -100,8 +101,8 @@
             </div>
             <div class="one">
               <div class="text">
-                  <p>Total</p>
-                  <h4>New Leads</h4>
+                  <p>Total New</p>
+                  <h4> Leads</h4>
               <h2>{{new_lead_count_date}}</h2>
               <p>
                   <a href="{% url 'leads:category-list' %}" class="flex flex-row items-center flex-wrap">
@@ -197,10 +198,6 @@
         No campaigns found.
         {% endfor %}
     </div>
-
-  
-
-       
     </div>
 </div>
 <script>

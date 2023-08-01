@@ -101,15 +101,16 @@ section{
 }
 .text{
     height: calc(100% - 20px);
-    margin: 10px;
+    margin: 2px;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     justify-content: center;
+    padding: 10px;
 }
 .total-count .one , .total-count-2 .one{
-    width: 135px;
-    height:150px;
+    width: 115px;
+    height: 140px;
     border-radius: 10px;
     box-shadow: 0 4px 3px rgb(0 0 0 / 0.07);
     margin:  5px ;
@@ -468,7 +469,7 @@ section{
   #myChart{
     max-height:400px;
     width:95vw;
-    margin:10px 250px 10px 10px;
+    margin:0px 250px 0px 10px;
     max-width:600px;
     /* box-shadow:1px 3px 9px 1px rgba(0, 0, 0, 0.171); */
     /* border-radius:20px; */

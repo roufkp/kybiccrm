@@ -165,7 +165,7 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
             ).filter(campaign__agent__user = user).count()               
             
         chart_data = {
-            "labels": ["Converted", "Rejected", "Follow-up", "New"],
+            "labels": ["Converted", "Rejected", "Follow-up", "New", ],
             "datasets": [{
                 "data": [
                     leads_converted_in_date_range,
@@ -174,10 +174,11 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
                     new_lead_count_date
                 ],
                 "backgroundColor": [
-                    '#f48000',   # Converted Leads
-                    '#b26cff',    # Rejected Leads
-                    '#0df4b2',    # Follow-up Leads
-                    '#dbff87'     # New Leads
+                    '#00ff89',   # Converted Leads
+                    '#bf0b16',    # Rejected Leads
+                    '#0075ff',    # Follow-up Leads
+                    '#ffcc19',     # New Leads
+                    '#937dc2',    #Total Leads
                 ],
                 "borderColor": [
                     'rgb(255, 99, 132)',

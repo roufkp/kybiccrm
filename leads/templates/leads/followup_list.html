@@ -32,6 +32,10 @@
   /* .texth .show button:active{
     background: brown !important;
   } */
+  .button img{
+     width: 50px;
+     height: 50px;
+  }
 
   section{
       display: none;
@@ -42,39 +46,47 @@
   section {
     padding: 20px;
     box-shadow:inset -5px 0px 11px 1px rgba(0, 0, 0, 0.025195);
-    background: rgb(219, 219, 219);
+    background: #d7d9ed;
+  }
+  .show div {
+    margin: auto 20px;
+  }
+  .show div img{
+    margin: auto ;
+  }
+  .show div button{
+    margin:10px  auto ;
+    min-width: 85px;
+    padding: 4px 9px;
+    background: rgb(211, 227, 228);
   }
 </style>
 
 <div class="sub-container texth"> 
 <!-- Content -->
- <div class="show md:ml-8" style=" margin: 10px;">
+ <div class="show md:ml-8" style=" margin: 10px; margin-top: 0px;">
   <div>
-      <button class="active hover:bg-blue-800" onclick="showSection(0)">
-        <img width="24" height="24" src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/external-recruitment-agency-rejected-candidate-due-to-incompatibility-jobs-bold-tal-revivo.png" alt="external-recruitment-agency-rejected-candidate-due-to-incompatibility-jobs-bold-tal-revivo"/>
-        Follow-up Due
-      
+    <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/delete-user-male.png" alt="delete-user-male"/>
+      <button class="active" onclick="showSection(0)">
+        Due      
       </button>
     </div>
     <div>
+      <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/today.png" alt="today"/>
       <button onclick="showSection(1)">
-        <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/today.png" alt="today"/>
         Today
-      
       </button>
     </div>
     <div>
+      <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/event-accepted-tentatively.png" alt="event-accepted-tentatively"/>
       <button onclick="showSection(2)">
-        <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/event-accepted-tentatively.png" alt="event-accepted-tentatively"/>
         Upcoming
-      
       </button>
     </div>
     <div>
+      <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/tear-off-calendar.png" alt="tear-off-calendar"/>
       <button onclick="showSection(3)">
-        <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/tear-off-calendar.png" alt="tear-off-calendar"/>
         Someday
-      
       </button>
     </div>
       <!-- <button onclick="showSection(4)">
