@@ -33,33 +33,23 @@
 
   <div class="sub-container "> 
         <!-- # Total staff Session -->
-
-      
-
 <!--New-->
-
-
-
-
-
-
-
-<div class="bg-white " style="margin:50px auto;width: 100%;">
+<div class="bg-white " style="margin:10px auto;width: 100%; background-color: #fffffa;">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto flex flex-row flex-wrap justify-between items-end max-w-6xl border-b border-gray-200 lg:mx-0  ">
     
 
-      <h2 class="text-xl font-bold tracking-tight text-gray-900 md:text-3xl  ">Campaigns</h2> 
+      <h2 class="text-xl font-bold tracking-tight text-gray-900 md:text-3xl" style="margin: 5px; font-size: 20px;">Latest 4 Campaigns</h2> 
             {% if request.user.is_organiser %}
                     <a href="{% url 'campaigns:campaign-create' %}" class="text-gray-500 hover:text-blue-500 ">                    
                     <button class="flex flex-col items-center justify-center ">
                           <div class="p-2.5 bg-blue-100 rounded-full shadow hover:shadow-xl">
                             <img src="{% static 'images/newlead.png' %}"  alt="" class="w-6 ">
                           </div>
-                          <p class="text-gray-700 text-sm mt-1 ">Add a campaign</p>
+                          <p class="text-gray-700 text-sm mt-1" style="margin: 5px;">New</p>
                     </button>
                     </a>
-                  </button>
+                  
             {% endif %}
     </div>
     {% comment %} New campaigns  {% endcomment %}
@@ -105,8 +95,8 @@
  {% endif %}
 {% endif %} {% endcomment %}
     {% comment %} New Campaigns ends {% endcomment %}
-    <div class="mx-auto mt-3 grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8  pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-      {% for campaign in campaigns %}  
+    <div class="mx-auto mt-3 grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8  pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3" style="margin: 0px;padding: 30px;">
+      {% for campaign in last_four_campaigns %}  
       <article class=" campaign-item flex max-w-xs flex-col items-start justify-between drop-shadow border border-dotted rounded-2xl px-3 py-3 border-black-800 max-w-xs   hover:border-solid" style="max-width:280px">
         <div class="flex items-center gap-x-4 text-xs">
           <time datetime="2020-03-16" class="text-gray-500"> Start: {{campaign.start_date}}</time>
@@ -155,7 +145,62 @@
     </div>
   </div>
 </div>
+{% if campaigns.exists %}  
+<div class="container w-full   mx-auto px-2 ">
+  <!--Title-->
+  <h1 class="flex items-center  font-bold break-normal  px-3 mt-20 pt-8 text-xl md:text-2xl" style="margin: 0px; padding: 0px;margin-left: 13px; font-size: 20px;">
+    Total campaign
 
+  </h1>
+    <!--Card-->
+    <div id='recipients' class="p-3 mt-0 lg:mt-0 rounded w-full bg-white">
+      <table id="example" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+        <thead>
+          <tr>
+            <th data-priority="1">campaign Name</th>
+              {% if request.user.is_organiser %}
+            <th data-priority="2">Staff</th>
+            {% endif %}
+            <th data-priority="2">Total leads</th>          
+            <th data-priority="3">Date Added</th>
+            <th data-priority="3"> End Date</th>
+
+            {% comment %} <th data-priority="4">More</th> {% endcomment %}
+          </tr>
+        </thead>
+        <tbody>
+           {% for campaign in campaigns %}                             
+              <tr>
+                <td>
+                   {{campaign.name}}
+                </td>
+                {% if request.user.is_organiser %}
+                <td>
+                <div class="flex flex-wrap gap-2">
+                  {% for agent in campaign.agent.all %}      
+                  <p class="staff-badge rounded-2xl  shadow px-3 py-1 text-center text-sm " style="min-width:50px;width:70px;margin-bottom: 6px;">{{ agent.user.username }}</p>
+                {% endfor %} 
+                </div>                     
+                </td>
+                 {% endif %}
+                
+                <td>{{campaign.total_leads}}</td>
+                <td>{{campaign.start_date}}</td>
+                <td>{{campaign.end_date}}</td>
+                
+                {% comment %} <td>
+                  <a href="{% url 'leads:lead-detail' campaign_id=campaign.id pk=lead.id %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                    View More
+                  </a>
+                </td> {% endcomment %}
+              </tr>                           
+          {% endfor %}
+        </tbody>
+      </table>
+    </div><!--/Card-->
+</div>
+ 
+  {% endif %}
                  
   </div>
 <!-- End of content -->
@@ -166,6 +211,20 @@
 
 <!-- JS File -->
 <script type="text/javascript" src={% static 'js/main.js' %}></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+	<script>
+		$(document).ready(function() {
+
+			var table = $('#example').DataTable({
+					responsive: true
+				})
+				.columns.adjust()
+				.responsive.recalc();
+		});
+	</script>
+    
 
 
   

@@ -21,11 +21,10 @@ from django.http import HttpResponse
 class CampaignListView(LoginRequiredMixin,generic.ListView):
     template_name = "campaigns/campaign_list.html"
     context_object_name = "campaigns"
-    print("campaign list view")
 
     def get_queryset(self):
         user = self.request.user
-        print("hihiiihi")
+        
         #inistial query set for the entireorganisation
         if user.is_organiser:
             campaigns = Campaign.objects.filter(organisation=user.userprofile) 
@@ -44,20 +43,21 @@ class CampaignListView(LoginRequiredMixin,generic.ListView):
         queryset = queryset.annotate(total_leads=Subquery(subquery))
 
         return queryset.distinct()
-    
-    # def get_context_data(self, **kwargs):
-    #     context = super(CampaignListView, self).get_context_data(**kwargs)
-    #     user = self.request.user
-    #     if user.is_organiser:
-    #         queryset = Campaign.objects.filter(
-    #             organisation = user.userprofile,
-    #             agent__isnull=True
-    #         ) 
-    #         context.update({
-    #             "unassigned_campaigns":queryset
-    #         })
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
+        # Get all the campaigns
+        all_campaigns = self.get_queryset()
+
+        # Get the last four campaigns
+        last_four_campaigns = all_campaigns[:4]
+
+        # Store all the campaigns and last four campaigns in the context
+        context['all_campaigns'] = all_campaigns
+        context['last_four_campaigns'] = last_four_campaigns
+
+        return context
+   
   
 # Create Campaignshere.
 
