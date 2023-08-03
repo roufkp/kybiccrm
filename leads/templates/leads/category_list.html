@@ -13,6 +13,18 @@
 	<title>Leads Management</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
+    .button{
+    min-width: 100px;
+    padding: 7px 20px;
+    background: rgb(1, 12, 22);
+    border-radius: 20px;
+    box-shadow: 1px 3px 9px 4px rgba(0, 0, 0, 0.184);
+    color: aliceblue;
+    }
+    .button a{
+    color: aliceblue;
+
+  }
 		body {
 			margin: 0;
 			padding: 0;
@@ -23,6 +35,7 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		width: 100%;
+    justify-content: center;
 		max-width: 600px;
 		background-color: transparent;
 		color: #fff;
@@ -30,7 +43,7 @@
 		text-align: center; 
 	}
 	  
-	  .show button{
+	  .show button {
 			padding: 10px 10px;
 			border: none;
 			border-radius: 5px;
@@ -45,8 +58,8 @@
 				/* transition: alls 0.2s; */
 			width: fit-content;
 		}
-		.show button.active {
-			background-color: #ecf6dd;
+		.show button:active {
+			background-color: #0e1800;
 			color: #1d1b1c;
 			border: none;
 			cursor: pointer;
@@ -62,6 +75,11 @@
 			margin: auto;
 
 		}
+    .rono{
+      display: flex;
+     flex-direction: column;
+     align-items: center;
+    }
 		section {
 			padding: 20px;
       padding-top: 0px;
@@ -74,6 +92,25 @@
 		h2 {
 			margin-top: 0;
 		}
+    .show .rono {
+    margin: auto 20px;
+  }
+  .show .rono img{
+    margin: auto;
+  }
+  .show .rono button{
+    margin:10px  auto ;
+    min-width: 85px;
+    padding: 0px 10px;
+    border-radius: 100px;
+    border: 2px solid black;
+    /* background: rgb(211, 227, 228); */
+  }
+  .show .rono  .active{
+   
+    background: #000000;
+    color: white;
+  }
 
 	</style>
 
@@ -102,7 +139,7 @@
       <!-- <img width="100" height="100" src="https://img.icons8.com/bubbles/100/winner.png" alt="winner"/> -->
 
     </h1>  
-    <div class="total-count  " >
+    <div class="total-count " style=" margin-left: 15px;" >
       
 
       {% for category, count in lead_counts %}
@@ -120,44 +157,55 @@
       
     </div>
     <!-- buttons area  -->
-    <h1 class="mt-10 text-xl bg-gray-800 px-3 py-2 text-white  md:text-xl " style="margin: 0px">
+    <h1 class="mt-10 text-xl bg-gray-800 px-3 py-2 text-white  md:text-xl " style="margin: 0px;margin: 0px;background: #211d1d;color: #ffffff;width: fit-content;margin-top: 30px;border-radius: 0px 20px 20px 0px;">
       Leads under categories</h1>  
 
  
 
     <div class="show md:ml-8" style=" margin: 5px;">
+      <div class="rono">
+      <img width="40" height="40" src="https://img.icons8.com/external-xnimrodx-lineal-xnimrodx/64/null/external-checklist-design-tools-xnimrodx-lineal-xnimrodx.png"/>
       <button class="active" onclick="showSection(0)">
-        <img src="https://img.icons8.com/external-xnimrodx-lineal-xnimrodx/64/null/external-checklist-design-tools-xnimrodx-lineal-xnimrodx.png"/>
         Follow up
       
       </button>
+    </div>
+    <div class="rono">
+      <img width="40" height="40" src="https://img.icons8.com/external-flatart-icons-solid-flatarticons/64/null/external-new-shopping-and-commerce-flatart-icons-solid-flatarticons.png"/>
       <button onclick="showSection(1)">
-        <img src="https://img.icons8.com/external-flatart-icons-solid-flatarticons/64/null/external-new-shopping-and-commerce-flatart-icons-solid-flatarticons.png"/>
         New
       
       </button>
+    </div>
+    <div class="rono">
+      <img width="40" height="40" src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/48/null/external-success-business-and-finance-tanah-basah-glyph-tanah-basah.png"/>
       <button onclick="showSection(2)">
-        <img src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/48/null/external-success-business-and-finance-tanah-basah-glyph-tanah-basah.png"/>
         Converted
       
       </button>
+    </div>
+    <div class="rono">
+      <img width="40" height="40" src="https://img.icons8.com/ios-filled/50/null/fail.png"/>
       <button onclick="showSection(3)">
-        <img src="https://img.icons8.com/ios-filled/50/null/fail.png"/>
         Rejected
       
       </button>
     </div>
+    </div>
 
     <!-- sections area  -->
     <section class="">
-      <div class="sub-cont overflow-x-scroll md:ml-8" style="margin: 5px;">      
-          <h2 class="mb-10 font-bold text-2xl md:text-4xl" style="margin: 15px;">Follow up leads</h2>
+      <div class="sub-cont overflow-x-scroll md:ml-8" style="margin: 5px; max-width: none;">      
+          <h2 class="mb-10 font-bold text-2xl md:text-4xl" style=" margin: auto; margin-bottom: 10px;text-align: center;font-size: 1.6rem;">Follow up leads</h2>
           <!-- <p>This is the follow up leads section.</p> -->
           <table id="example1" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
             <thead>
               <tr>
                 <th data-priority="1">Name</th>
-                <th data-priority="3">Date Added</th>
+                <th data-priority="2">Date Added</th>
+                <th data-priority="3">Campaign Name</th>
+                <th data-priority="4">Source</th>
+
               </tr>
             </thead>
             <tbody>
@@ -169,6 +217,8 @@
                       </a>
                     </td>
                     <td>{{ lead.date_added }}</td>
+                    <td>{{ lead.campaign}}</td>
+                    <td>{{ lead.source}}</td>
                 </tr>
               {% endfor %}                      
             </tbody>
@@ -176,7 +226,7 @@
       </div>
     </section>
     <section>
-      <div class="sub-cont overflow-x-scroll md:ml-8" style="margin: 5px;"> 
+      <div class="sub-cont overflow-x-scroll md:ml-8" style="margin: 5px; max-width: none;"> 
       <h2 class="mb-10 font-bold text-2xl md:text-4xl" style="margin: 15px;">New leads</h2>
       <table id="example2" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
         <thead>
@@ -201,7 +251,7 @@
       </div>
     </section>
     <section>
-      <div class="sub-cont overflow-x-scroll md:ml-8" style="margin: 5px;"> 
+      <div class="sub-cont overflow-x-scroll md:ml-8" style="margin: 5px; max-width: none;"> 
       <h2 class="mb-10 font-bold text-2xl md:text-4xl" style="margin: 15px;">Converted leads</h2>
       <table id="example3" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
         <thead>
@@ -226,7 +276,7 @@
       </div>
     </section>
     <section>
-      <div class="sub-cont overflow-x-scroll md:ml-8"style="margin: 5px;">  
+      <div class="sub-cont overflow-x-scroll md:ml-8"style="margin: 5px;max-width: none;">  
       <h2 class="mb-10 font-bold text-2xl md:text-4xl" style="margin: 15px;">Rejected leads</h2>
       <table id="example4" class="lead-list stripe hover" style="width:100% !important; padding-top: 1em;  padding-bottom: 1em;">
         <thead>

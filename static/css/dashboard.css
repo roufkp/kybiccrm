@@ -82,8 +82,9 @@ section{
     height: auto;
     /* background: rgb(225, 255, 225); */
     display: flex;
-    margin: auto;
+    margin:0px;
     flex-wrap: wrap;
+    margin-bottom: 5PX;
     align-items: center;
     /* padding: 50px 0; */
     /* border-bottom: 1px solid rgba(0, 0, 0, 0.1593); */

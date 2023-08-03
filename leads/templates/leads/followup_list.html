@@ -57,34 +57,44 @@
   .show div button{
     margin:10px  auto ;
     min-width: 85px;
-    padding: 4px 9px;
-    background: rgb(211, 227, 228);
+    padding: 0px 10px;
+    border-radius: 100px;
+    border: 2px solid black;
   }
+  .show div .active{
+     background: #000000;
+    color: white;
+    border-radius: 100px;
+
+  }
+    .show div  img{
+      width:35px;
+    }
 </style>
 
 <div class="sub-container texth"> 
 <!-- Content -->
- <div class="show md:ml-8" style=" margin: 10px; margin-top: 0px;">
+ <div class="show md:ml-8" style=" margin: 10px; margin-top: 20px;">
   <div>
-    <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/delete-user-male.png" alt="delete-user-male"/>
+    <img width="40" height="40" src="https://img.icons8.com/ios-filled/50/delete-user-male.png" alt="delete-user-male"/>
       <button class="active" onclick="showSection(0)">
         Due      
       </button>
     </div>
     <div>
-      <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/today.png" alt="today"/>
+      <img width="40" height="40" src="https://img.icons8.com/ios-filled/50/today.png" alt="today"/>
       <button onclick="showSection(1)">
         Today
       </button>
     </div>
     <div>
-      <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/event-accepted-tentatively.png" alt="event-accepted-tentatively"/>
+      <img width="40" height="40" src="https://img.icons8.com/ios-filled/50/event-accepted-tentatively.png" alt="event-accepted-tentatively"/>
       <button onclick="showSection(2)">
         Upcoming
       </button>
     </div>
     <div>
-      <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/tear-off-calendar.png" alt="tear-off-calendar"/>
+      <img width="40" height="40" src="https://img.icons8.com/ios-filled/50/tear-off-calendar.png" alt="tear-off-calendar"/>
       <button onclick="showSection(3)">
         Someday
       </button>
