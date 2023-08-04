@@ -202,6 +202,7 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
             "start_date_str": start_date_str,
             "end_date_str": end_date_str,
             "leads_converted_in_date_range": leads_converted_in_date_range,
+            
         })
         return context
 

@@ -10,16 +10,29 @@ from .mixins import OrganiserAndLoginRequiredMixin
 from leads.models import Campaign
 from django.http import Http404
 from django.core.mail import EmailMessage
+from django.views import generic
+# from .models import Agent, Campaign
 
-
-
-
-class AgentListView(OrganiserAndLoginRequiredMixin,generic.ListView):
+class AgentListView(OrganiserAndLoginRequiredMixin, generic.ListView):
     template_name = "agents/agent_list.html"
 
     def get_queryset(self):
         organisation = self.request.user.userprofile
-        return Agent.objects.filter(organisation = organisation)
+        return Agent.objects.filter(organisation=organisation)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        organisation = self.request.user.userprofile
+        agents = Agent.objects.filter(organisation=organisation)
+        agent_campaigns = {}
+
+        for agent in agents:
+            # Get the campaigns associated with the current agent
+            campaigns = Campaign.objects.filter(agent=agent)
+            agent_campaigns[agent] = campaigns
+
+        context['agent_campaigns'] = agent_campaigns
+        return context
 
 
 
@@ -28,6 +41,7 @@ class AgentListView(OrganiserAndLoginRequiredMixin,generic.ListView):
 class AgentCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
     template_name = "agents/agent_create.html"
     form_class = AgentModelForm
+    
     # print("Success! Agent created and email sent.")
 
 
