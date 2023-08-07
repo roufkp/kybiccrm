@@ -109,7 +109,7 @@
     <div class="bg-white ">
         <div class="container w-full  px-2">
             <!--Title-->
-            {% for status, leads in leads_by_status.items %}
+            {% comment %} {% for status, leads in leads_by_status.items %}
            
             <section>
                 <h1 class="flex items-center font-sans font-bold break-normal text-black-500 mt-8 px-3 pt-3 text-xl md:text-xl">
@@ -146,7 +146,134 @@
                 </table>
               </div><!--/Card-->
             </section>
-              {% endfor %}
+              {% endfor %} {% endcomment %}
+              
+              <section class="">
+                <div class="sub-cont overflow-x-scroll md:ml-8" style="margin: 5px; max-width: none;">      
+                    <h2 class="mb-10 font-bold text-2xl md:text-4xl" style=" margin: auto; margin-bottom: 10px;text-align: center;font-size: 1.6rem;">Follow up due</h2>
+                    <!-- <p>This is the follow up leads section.</p> -->
+                    <table id="example1" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                      <thead>
+                        <tr>
+                          <th data-priority="1">Name</th>
+                          <th data-priority="2">Date Added</th>
+                          <th data-priority="3">Campaign Name</th>
+                          <th data-priority="4">Source</th>
+          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for lead in overdue_leads %}
+                          <tr>
+                              <td>
+                                <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                                  {{ lead.first_name }}
+                                </a>
+                              </td>
+                              <td>{{ lead.date_added }}</td>
+                              <td>{{ lead.campaign}}</td>
+                              <td>{{ lead.source}}</td>
+                          </tr>
+                        {% endfor %}                      
+                      </tbody>
+                    </table>
+                </div>
+              </section>
+              <section class="">
+                <div class="sub-cont overflow-x-scroll md:ml-8" style="margin: 5px; max-width: none;">      
+                    <h2 class="mb-10 font-bold text-2xl md:text-4xl" style=" margin: auto; margin-bottom: 10px;text-align: center;font-size: 1.6rem;">Today Leads</h2>
+                    <!-- <p>This is the follow up leads section.</p> -->
+                    <table id="example2" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                      <thead>
+                        <tr>
+                          <th data-priority="1">Name</th>
+                          <th data-priority="2">Date Added</th>
+                          <th data-priority="3">Campaign Name</th>
+                          <th data-priority="4">Source</th>
+          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for lead in today_leads %}
+                          <tr>
+                              <td>
+                                <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                                  {{ lead.first_name }}
+                                </a>
+                              </td>
+                              <td>{{ lead.date_added }}</td>
+                              <td>{{ lead.campaign}}</td>
+                              <td>{{ lead.source}}</td>
+                          </tr>
+                        {% endfor %}                      
+                      </tbody>
+                    </table>
+                </div>
+              </section>
+              <section class="">
+                <div class="sub-cont overflow-x-scroll md:ml-8" style="margin: 5px; max-width: none;">      
+                    <h2 class="mb-10 font-bold text-2xl md:text-4xl" style=" margin: auto; margin-bottom: 10px;text-align: center;font-size: 1.6rem;">Upcoming Leads</h2>
+                    <!-- <p>This is the follow up leads section.</p> -->
+                    <table id="example3" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                      <thead>
+                        <tr>
+                          <th data-priority="1">Name</th>
+                          <th data-priority="2">Date Added</th>
+                          <th data-priority="3">Campaign Name</th>
+                          <th data-priority="4">Source</th>
+          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for lead in upcoming_leads %}
+                          <tr>
+                              <td>
+                                <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                                  {{ lead.first_name }}
+                                </a>
+                              </td>
+                              <td>{{ lead.date_added }}</td>
+                              <td>{{ lead.campaign}}</td>
+                              <td>{{ lead.source}}</td>
+                          </tr>
+                        {% endfor %}                      
+                      </tbody>
+                    </table>
+                </div>
+              </section>
+              <section class="">
+                <div class="sub-cont overflow-x-scroll md:ml-8" style="margin: 5px; max-width: none;">      
+                    <h2 class="mb-10 font-bold text-2xl md:text-4xl" style=" margin: auto; margin-bottom: 10px;text-align: center;font-size: 1.6rem;">Someday Leads</h2>
+                    <!-- <p>This is the follow up leads section.</p> -->
+                    <table id="example4" class="lead-list stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                      <thead>
+                        <tr>
+                          <th data-priority="1">Name</th>
+                          <th data-priority="2">Date Added</th>
+                          <th data-priority="3">Campaign Name</th>
+                          <th data-priority="4">Source</th>
+          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for lead in someday_leads %}
+                          <tr>
+                              <td>
+                                <a href="{% url 'leads:lead-detail' campaign_id=lead.campaign_id pk=lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">
+                                  {{ lead.first_name }}
+                                </a>
+                              </td>
+                              <td>{{ lead.date_added }}</td>
+                              <td>{{ lead.campaign}}</td>
+                              <td>{{ lead.source}}</td>
+                          </tr>
+                        {% endfor %}                      
+                      </tbody>
+                    </table>
+                </div>
+              </section>
+              
+            
         </div>
     </div>                 
 </div>

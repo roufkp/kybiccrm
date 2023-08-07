@@ -1,3 +1,4 @@
+from typing import Any
 from django.core.mail import send_mail
 import datetime as dt
 from django.urls import reverse_lazy
@@ -26,7 +27,7 @@ from django.views import View
 # from twilio.rest import Client
 from django.core.mail import EmailMessage
 from campaign.forms import ContactForm
-from django import forms
+from django import forms, http
 # from .models import Notification
 from django.utils.datetime_safe import datetime
 import csv
@@ -77,6 +78,11 @@ def aboutus_page(request):
 
 def dashboard(request):
     return render(request,"dashboard.html")
+
+def setting_page(request):
+    return render(request,"setting.html")
+
+
 
 
 class DashboardView(LoginRequiredMixin, generic.TemplateView):
@@ -557,7 +563,11 @@ class FollowUpListView(LoginRequiredMixin, View):
         }
 
         context = {
+            'today_leads':today_leads,
+            'upcoming_leads':upcoming_leads,
+            'someday_leads':someday_leads,
             'overdue_leads': overdue_leads,
+            'no_follow_up_leads':no_follow_up_leads,
             'leads_by_status': leads_by_status,
             'campaign_id': campaign_id,
         }
@@ -617,6 +627,24 @@ class FollowUpDeleteView(OrganiserAndLoginRequiredMixin, generic.DeleteView):
         return queryset
 
 
+class FollowUpDeleteView(OrganiserAndLoginRequiredMixin, generic.DeleteView):
+    template_name = "leads/setting.html"
+
+    def get_success_url(self):
+        followup = FollowUp.objects.get(id=self.kwargs["pk"])
+        return reverse("leads:lead-detail", kwargs={"pk": followup.lead.pk})
+
+    def get_queryset(self):
+        user = self.request.user
+        # initial queryset of leads for the entire organisation
+        if user.is_organiser:
+            queryset = FollowUp.objects.filter(lead__organisation=user.userprofile)
+        else:
+            queryset = FollowUp.objects.filter(lead__organisation=user.agent.organisation)
+            # filter for the agent that is logged in
+            queryset = queryset.filter(lead__agent__user=user)
+        return queryset
+
 
 
 class DownloadLeadsView(View):
@@ -646,14 +674,6 @@ class DownloadLeadsView(View):
             writer.writerow([lead.first_name, lead.last_name, lead.age, category_name, lead.campaign.name, lead.description, lead.city, lead.q1, lead.a1, lead.job_title, lead.date_added, lead.phone_number, lead.whatsapp_number, lead.email, lead.source, lead.converted_date])
 
         return response
-
-
-
-
-
-
-
-
 
 
 class UploadCSVForm(forms.Form):
@@ -810,3 +830,10 @@ def error_405(request, exception):
 
 def error_401(request, exception):
     return render(request, 'error_pages/401.html', {})
+
+class SettingsPageView(generic.TemplateView):
+    template_name = "setting.html"
+
+    
+
+    

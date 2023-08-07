@@ -60,7 +60,7 @@
                         <div>
                           <h3 class="text-center font-semibold leading-7 tracking-tight text-gray-900">{{agent.user.username}}</h3>
                           <!-- <p class="text-sm font-semibold leading-6 text-indigo-600">{{agent.user.email}}</p> -->
-                          <p class="text-sm font-semibold leading-6 text-indigo-600">{{agent.user.role}}</p>
+                          <p class="text-sm font-semibold leading-6 text-indigo-600">{{agent.role}}</p>
                         </div>
                       </div>
                     </a>
@@ -79,24 +79,33 @@
               <thead>
                 <tr>
                   <!-- <th data-priority="1">Name</th> -->
-                  <th data-priority="1">Campaign Name</th>
-                  <th data-priority="2">Name</th>
-                  <th data-priority="3"></th>
-                  <th data-priority="4"></th>
+                  <th data-priority="1">Staff Name</th>
+                  <th data-priority="1">Role</th>
+                  <th data-priority="2">Campaigns</th>
+                  
                   <!-- <th data-priority="1">Name</th> -->
                 </tr>
               </thead>
                  <tbody>
-                 {% for agent, campaigns in agent_campaigns.items %}
+                  {% for agent_data in agent_data %}
                     <tr>
-                        {% for campaign in campaigns %}
-                        <td>{{ campaign.name }}</td>
-                        {% endfor %}
-                      </tr>
+                        <td>{{agent_data.agent.user.username}}</td>
+                        <td>{{agent_data.agent.role}}</td>
+                        <td>
+                          <div class="" style="display: flex; flex-wrap: wrap; gap: 15px;">
+                          {% for campaign in agent_data.campaigns %}
+                          <p>{{ campaign.name }}</p>
+                          {% endfor %}
+                        </div>
+                        </td>
+                    </tr>
                 {% endfor %}                     
               </tbody>
             </table>
         </div>
+
+        
+
       </section>
     
   </div>

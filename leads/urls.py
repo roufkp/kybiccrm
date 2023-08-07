@@ -4,7 +4,7 @@ from .views import (
     LeadListView,LeadDetailView,LeadCreateView,LeadUpdateView,LeadDeleteView,CategoryListView,
     # CategoryDetailView,CategoryCreateView,CategoryUpdateView,CategoryDeleteView,
     LeadCategoryUpdateView,
-    FollowUpCreateView,FollowUpUpdateView, FollowUpDeleteView,FollowUpListView,DownloadLeadsView,
+    FollowUpCreateView,FollowUpUpdateView, FollowUpDeleteView,FollowUpListView,DownloadLeadsView,SettingsPageView,
     # WhatsappMessagingView,
     lead_form_submissions,
     )
@@ -32,6 +32,7 @@ urlpatterns = [
     # path('<int:pk>/assign-agent/', AssignAgentView.as_view(),name="assign-agent"),
     path('<int:campaign_id>/<int:pk>/category/', LeadCategoryUpdateView.as_view(),name="lead-category-update"),
     path('leads/followups/', FollowUpListView.as_view(), name='followup-list'), 
+    path('settings', SettingsPageView.as_view(), name='settings'), 
     # path('<int:campaign_id>/followups/', FollowUpView.as_view(), name='followup-leads'),
     path('<int:campaign_id>/<int:pk>/followups/create/', FollowUpCreateView.as_view(), name='lead-followup-create'),    
     path('followups/<int:campaign_id>/<int:pk>/update/', FollowUpUpdateView.as_view(), name='lead-followup-update'),

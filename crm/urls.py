@@ -38,6 +38,7 @@ urlpatterns = [
     # path('pricing/',pricing_page , name="pricing-page"),
     path('services/',services_page , name="services-page"),
     path('aboutus/',aboutus_page , name="aboutus-page"),
+    # path('setting/',setting_page , name="setting-page"),
     # path('contactus/',contactus_page , name="contactus-page"),
     path('contactus/',ContactView.as_view() , name="contactus-page"),
     path('dashboard/',DashboardView.as_view() , name="dashboard"),

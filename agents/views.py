@@ -24,14 +24,20 @@ class AgentListView(OrganiserAndLoginRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         organisation = self.request.user.userprofile
         agents = Agent.objects.filter(organisation=organisation)
-        agent_campaigns = {}
+        agent_data = []
 
         for agent in agents:
             # Get the campaigns associated with the current agent
             campaigns = Campaign.objects.filter(agent=agent)
-            agent_campaigns[agent] = campaigns
 
-        context['agent_campaigns'] = agent_campaigns
+            # Add agent's email, role, and campaigns to the agent_data list
+            agent_data.append({
+                'agent': agent,
+                'role': agent.get_role_display(),  # Get the display value of the role
+                'campaigns': campaigns,
+            })
+
+        context['agent_data'] = agent_data
         return context
 
 
@@ -50,12 +56,14 @@ class AgentCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
 
     def form_valid(self,form):
         user = form.save(commit=False)
+        print(form.cleaned_data['role'])
         user.is_agent = True
         user.is_organiser = False
         user.set_password(f"{random.randint(0,10000000)}")
         user.save()
         Agent.objects.create(
             user=user,
+            role=form.cleaned_data['role'],
             organisation = self.request.user.userprofile
         )
                 # Send email to the user using smtp
